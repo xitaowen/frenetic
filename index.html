@@ -28,47 +28,32 @@
         </ul>
       </header>
       <section>
-        <p>Work in Progress: Frenetic will be ready by June 10th, along with a
-standalone tutorial.</p>
-
-<h2>
-<a name="building-from-source" class="anchor" href="#building-from-source"><span class="octicon octicon-link"></span></a>Building from Source</h2>
-
-<p>Prerequisites:</p>
+        <p>The languages used to program networks today lack modern features. Programming them is a complicated and error-prone task, and outages and infiltrations are frequent. We believe it is time to develop <strong>network programming languages</strong> with the following essential features:</p>
 
 <ul>
-<li><p>OCaml 4.0 or higher <a href="http://caml.inria.fr/download.en.html">http://caml.inria.fr/download.en.html</a></p></li>
-<li><p>OPAM <a href="http://opam.ocamlpro.com">http://opam.ocamlpro.com</a></p></li>
 <li>
-<p>The following OCaml libraries:</p>
+<strong>High-level abstractions</strong> that give programmers direct control over the network, allowing them to specify what they want the network to do without worrying about how to implement it.</li>
+<li>
+<strong>Modular constructs</strong> that facilitate compositional reasoning about programs.</li>
+<li>
+<strong>Portability</strong>, allowing programs written for one platform to be reused with different devices.</li>
+<li>
+<strong>Rigorous semantic foundations</strong> that precisely document the meaning of the language and provide a solid platform for mechanical program analysis tools.</li>
+</ul><p>The Frenetic language addresses these challenges in the context of <a href="http://www.openflow.org">OpenFlow</a> networks. It combines a streaming declarative query sub-language and a functional reactive sub-language that, together, provide many of the features listed above. Our prototype implementation handles many low-level packet-processing details and keeps traffic in the "fast path" whenever possible.</p>
+
+<h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>Check out our <a href="https://github.com/frenetic-lang/frenetic/blob/master/README.md">README</a> for instructions on building the project.</p>
+
+<p>We have developed several guides for getting up to speed on programming OpenFlow networks in general and using Frenetic in particular:</p>
 
 <ul>
-<li>ocamlfind</li>
-<li>lwt</li>
-<li>cstruct </li>
-<li>oUnit</li>
-</ul>
-<p>These are available on OPAM:</p>
+<li><p><strong><a href="https://github.com/frenetic-lang/frenetic/blob/master/guide/Ox-tutorial.md">Ox</a></strong>.  This guide provides a high-level overview of software defined networking as well as an introduction to the OpenFlow protocol using Ox, an OCaml-based controller platform for controlling an OpenFlow-enabled network by sending and receiving OpenFlow messages directly.</p></li>
+<li><p><strong><a href="https://github.com/frenetic-lang/frenetic/blob/master/guide/NetCore-tutorial.md">Frenetic</a></strong>.  This guide introduces the design principles of the Frenetic language along with the nuts and bolts of using Frenetic to control an OpenFlow-enabled network.</p></li>
+</ul><p>For readers unfamiliar with programming software defined networks, we recommend starting with the Ox tutorial before progressing to the Frenetic tutorial.</p>
 
-<pre><code>$ opam install ocamlfind cstruct lwt ounit
-</code></pre>
-</li>
-</ul><p>Building:</p>
-
-<p>From the root directory of the repository, simply run <code>make</code></p>
-
-<pre><code>  $ make
-</code></pre>
-
-<h2>
-<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
-
-<p>The API documentation is available <a href="http://htmlpreview.github.com/?https://github.com/frenetic-lang/frenetic/tree/master/doc">online</a>.</p>
-
-<h2>
-<a name="hacking-wisdom" class="anchor" href="#hacking-wisdom"><span class="octicon octicon-link"></span></a>Hacking Wisdom</h2>
-
-<p>If you're using the user-mode reference switch, emit CONTROLLER actions last.</p>
+<p>The Frenetic language is primarily documented in the <a href="https://github.com/frenetic-lang/frenetic/blob/master/guide/manual.md">Frenetic Manual</a>.  The <a href="http://htmlpreview.github.com/?https://github.com/frenetic-lang/frenetic/tree/master/doc">API documentation</a> is also available online.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/frenetic-lang">frenetic-lang</a></p>
