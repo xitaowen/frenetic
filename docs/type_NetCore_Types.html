@@ -3,14 +3,13 @@
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
 <link rel="Start" href="index.html">
 <link title="Index of types" rel=Appendix href="index_types.html">
-<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Packet" rel="Chapter" href="Packet.html">
 <link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
-<link title="OpenFlow0x01" rel="Chapter" href="OpenFlow0x01.html">
-<link title="Ox_Controller" rel="Chapter" href="Ox_Controller.html"><title>NetCore_Types</title>
+<link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="Ox" rel="Chapter" href="Ox.html"><title>NetCore_Types</title>
 </head>
 <body>
 <code class="code"><span class="keyword">sig</span><br>
@@ -76,4 +75,19 @@
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;value&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Pkt</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.switchId&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.port&nbsp;*&nbsp;<span class="constructor">Packet</span>.packet&nbsp;*<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">OpenFlow0x01</span>.<span class="constructor">Payload</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;all&nbsp;:&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dlSrc&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlAddr&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dlDst&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlAddr&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dlType&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlTyp&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dlVlan&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlVlan&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dlVlanPcp&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlVlanPcp&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ipSrc&nbsp;:&nbsp;<span class="constructor">Packet</span>.nwAddr&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ipDst&nbsp;:&nbsp;<span class="constructor">Packet</span>.nwAddr&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ipProto&nbsp;:&nbsp;<span class="constructor">Packet</span>.nwProto&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;inPort&nbsp;:&nbsp;<span class="constructor">NetCore_Types</span>.port&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tcpSrcPort&nbsp;:&nbsp;<span class="constructor">Packet</span>.tpPort&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tcpDstPort&nbsp;:&nbsp;<span class="constructor">Packet</span>.tpPort&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;udpSrcPort&nbsp;:&nbsp;<span class="constructor">Packet</span>.tpPort&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;udpDstPort&nbsp;:&nbsp;<span class="constructor">Packet</span>.tpPort&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
 <span class="keyword">end</span></code></body></html>

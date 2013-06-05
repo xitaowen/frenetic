@@ -1,0 +1,93 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Packet" rel="Chapter" href="Packet.html">
+<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
+<link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="Ox" rel="Chapter" href="Ox.html"><title>OpenFlow0x01_Core</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;switchId&nbsp;=&nbsp;int64<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;portId&nbsp;=&nbsp;<span class="constructor">Packet</span>.int16<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;xid&nbsp;=&nbsp;int32<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;pattern&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dlSrc&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlAddr&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dlDst&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlAddr&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dlTyp&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlTyp&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dlVlan&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlVlan&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dlVlanPcp&nbsp;:&nbsp;<span class="constructor">Packet</span>.dlVlanPcp&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nwSrc&nbsp;:&nbsp;<span class="constructor">Packet</span>.nwAddr&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nwDst&nbsp;:&nbsp;<span class="constructor">Packet</span>.nwAddr&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nwProto&nbsp;:&nbsp;<span class="constructor">Packet</span>.nwProto&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nwTos&nbsp;:&nbsp;<span class="constructor">Packet</span>.nwTos&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tpSrc&nbsp;:&nbsp;<span class="constructor">Packet</span>.tpPort&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tpDst&nbsp;:&nbsp;<span class="constructor">Packet</span>.tpPort&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;inPort&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.portId&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;pseudoPort&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">PhysicalPort</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.portId<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">AllPorts</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">InPort</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Flood</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Controller</span>&nbsp;<span class="keyword">of</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;action&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Output</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pseudoPort<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetDlVlan</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlVlan<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetDlVlanPcp</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlVlanPcp<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">StripVlan</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetDlSrc</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlAddr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetDlDst</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlAddr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetNwSrc</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.nwAddr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetNwDst</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.nwAddr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetNwTos</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.nwTos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetTpSrc</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.tpPort<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetTpDst</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.tpPort<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;timeout&nbsp;=&nbsp;<span class="constructor">Permanent</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ExpiresAfter</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.int16<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;flowModCommand&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">AddFlow</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ModFlow</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ModStrictFlow</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">DeleteFlow</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">DeleteStrictFlow</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;flowMod&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;command&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.flowModCommand;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pattern&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pattern;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;priority&nbsp;:&nbsp;<span class="constructor">Packet</span>.int16;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;actions&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.action&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cookie&nbsp;:&nbsp;int64;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;idle_timeout&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.timeout;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hard_timeout&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.timeout;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;notify_when_removed&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;apply_to_packet&nbsp;:&nbsp;int32&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out_port&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pseudoPort&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;check_overlap&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;payload&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Buffered</span>&nbsp;<span class="keyword">of</span>&nbsp;int32&nbsp;*&nbsp;<span class="constructor">Packet</span>.bytes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">NotBuffered</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.bytes<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;packetInReason&nbsp;=&nbsp;<span class="constructor">NoMatch</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ExplicitSend</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;packetIn&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_payload&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.payload;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;total_len&nbsp;:&nbsp;<span class="constructor">Packet</span>.int16;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;port&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.portId;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reason&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.packetInReason;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;packetOut&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;output_payload&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.payload;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;port_id&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.portId&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;apply_actions&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.action&nbsp;list;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;parse_payload&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.payload&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Packet</span>.packet<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;match_all&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pattern<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_flow&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Packet</span>.int16&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pattern&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.action&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.flowMod<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;delete_all_flows&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.flowMod<br>
+<span class="keyword">end</span></code></body></html>
