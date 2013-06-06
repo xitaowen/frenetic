@@ -9,6 +9,7 @@
 <link title="Packet" rel="Chapter" href="Packet.html">
 <link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
 <link title="Ox" rel="Chapter" href="Ox.html"><title>Packet.Arp</title>
 </head>
 <body>
@@ -16,5 +17,4 @@
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Query</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlAddr&nbsp;*&nbsp;<span class="constructor">Packet</span>.nwAddr&nbsp;*&nbsp;<span class="constructor">Packet</span>.nwAddr<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Reply</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlAddr&nbsp;*&nbsp;<span class="constructor">Packet</span>.nwAddr&nbsp;*&nbsp;<span class="constructor">Packet</span>.dlAddr&nbsp;*&nbsp;<span class="constructor">Packet</span>.nwAddr<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_string&nbsp;:&nbsp;<span class="constructor">Packet</span>.<span class="constructor">Arp</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
 <span class="keyword">end</span></code></body></html>

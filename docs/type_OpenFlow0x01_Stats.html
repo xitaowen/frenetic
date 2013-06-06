@@ -1,0 +1,52 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Packet" rel="Chapter" href="Packet.html">
+<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
+<link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
+<link title="Ox" rel="Chapter" href="Ox.html"><title>OpenFlow0x01_Stats</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;request&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">DescriptionRequest</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">IndividualRequest</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pattern&nbsp;*&nbsp;<span class="constructor">Packet</span>.int8&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pseudoPort&nbsp;option<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">AggregateRequest</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pattern&nbsp;*&nbsp;<span class="constructor">Packet</span>.int8&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pseudoPort&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;descriptionStats&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;manufacturer&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hardware&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;software&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;serial_number&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;datapath&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;individualStats&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;table_id&nbsp;:&nbsp;<span class="constructor">Packet</span>.int8;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;of_match&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pattern;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;duration_sec&nbsp;:&nbsp;int32;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;duration_nsec&nbsp;:&nbsp;int32;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;priority&nbsp;:&nbsp;<span class="constructor">Packet</span>.int16;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;idle_timeout&nbsp;:&nbsp;<span class="constructor">Packet</span>.int16;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hard_timeout&nbsp;:&nbsp;<span class="constructor">Packet</span>.int16;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cookie&nbsp;:&nbsp;int64;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;packet_count&nbsp;:&nbsp;int64;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;byte_count&nbsp;:&nbsp;int64;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;actions&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.action&nbsp;list;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;aggregateStats&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;total_packet_count&nbsp;:&nbsp;int64;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;total_byte_count&nbsp;:&nbsp;int64;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;flow_count&nbsp;:&nbsp;int32;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;reply&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">DescriptionRep</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">OpenFlow0x01_Stats</span>.descriptionStats<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">IndividualFlowRep</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">OpenFlow0x01_Stats</span>.individualStats&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">AggregateFlowRep</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">OpenFlow0x01_Stats</span>.aggregateStats<br>
+<span class="keyword">end</span></code></body></html>

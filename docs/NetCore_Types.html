@@ -14,6 +14,7 @@
 <link title="Packet" rel="Chapter" href="Packet.html">
 <link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
 <link title="Ox" rel="Chapter" href="Ox.html"><title>NetCore_Types</title>
 </head>
 <body>
@@ -281,49 +282,49 @@ Note that OpenFlow does not allow the <code class="code">dlType</code> and <code
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpred.PrHdr"><span class="constructor">PrHdr</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></code></td>
+<code><span id="TYPEELTpred.Hdr"><span class="constructor">Hdr</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpred.PrOnSwitch"><span class="constructor">PrOnSwitch</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEswitchId">switchId</a></code></code></td>
+<code><span id="TYPEELTpred.OnSwitch"><span class="constructor">OnSwitch</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEswitchId">switchId</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpred.PrOr"><span class="constructor">PrOr</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a> * <a href="NetCore_Types.html#TYPEpred">pred</a></code></code></td>
+<code><span id="TYPEELTpred.Or"><span class="constructor">Or</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a> * <a href="NetCore_Types.html#TYPEpred">pred</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpred.PrAnd"><span class="constructor">PrAnd</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a> * <a href="NetCore_Types.html#TYPEpred">pred</a></code></code></td>
+<code><span id="TYPEELTpred.And"><span class="constructor">And</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a> * <a href="NetCore_Types.html#TYPEpred">pred</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpred.PrNot"><span class="constructor">PrNot</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a></code></code></td>
+<code><span id="TYPEELTpred.Not"><span class="constructor">Not</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpred.PrAll"><span class="constructor">PrAll</span></span></code></td>
+<code><span id="TYPEELTpred.Everything"><span class="constructor">Everything</span></span></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpred.PrNone"><span class="constructor">PrNone</span></span></code></td>
+<code><span id="TYPEELTpred.Nothing"><span class="constructor">Nothing</span></span></code></td>
 
 </tr></table>
 
@@ -357,35 +358,35 @@ Note that OpenFlow does not allow the <code class="code">dlType</code> and <code
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpol.PoAction"><span class="constructor">PoAction</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEaction">action</a></code></code></td>
+<code><span id="TYPEELTpol.Action"><span class="constructor">Action</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEaction">action</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpol.PoFilter"><span class="constructor">PoFilter</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a></code></code></td>
+<code><span id="TYPEELTpol.Filter"><span class="constructor">Filter</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpol.PoUnion"><span class="constructor">PoUnion</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpol">pol</a> * <a href="NetCore_Types.html#TYPEpol">pol</a></code></code></td>
+<code><span id="TYPEELTpol.Union"><span class="constructor">Union</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpol">pol</a> * <a href="NetCore_Types.html#TYPEpol">pol</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpol.PoSeq"><span class="constructor">PoSeq</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpol">pol</a> * <a href="NetCore_Types.html#TYPEpol">pol</a></code></code></td>
+<code><span id="TYPEELTpol.Seq"><span class="constructor">Seq</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpol">pol</a> * <a href="NetCore_Types.html#TYPEpol">pol</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTpol.PoITE"><span class="constructor">PoITE</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a> * <a href="NetCore_Types.html#TYPEpol">pol</a> * <a href="NetCore_Types.html#TYPEpol">pol</a></code></code></td>
+<code><span id="TYPEELTpol.ITE"><span class="constructor">ITE</span></span> <span class="keyword">of</span> <code class="type"><a href="NetCore_Types.html#TYPEpred">pred</a> * <a href="NetCore_Types.html#TYPEpol">pol</a> * <a href="NetCore_Types.html#TYPEpol">pol</a></code></code></td>
 
 </tr></table>
 

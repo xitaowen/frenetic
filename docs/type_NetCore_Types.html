@@ -9,6 +9,7 @@
 <link title="Packet" rel="Chapter" href="Packet.html">
 <link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
 <link title="Ox" rel="Chapter" href="Ox.html"><title>NetCore_Types</title>
 </head>
 <body>
@@ -55,23 +56,23 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ControllerQuery</span>&nbsp;<span class="keyword">of</span>&nbsp;float&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.get_count_handler<br>
 &nbsp;&nbsp;<span class="keyword">and</span>&nbsp;action&nbsp;=&nbsp;<span class="constructor">NetCore_Types</span>.action_atom&nbsp;list<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;pred&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">PrHdr</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PrOnSwitch</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.switchId<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PrOr</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pred<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PrAnd</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pred<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PrNot</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PrAll</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PrNone</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Hdr</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.ptrn<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">OnSwitch</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.switchId<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Or</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pred<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">And</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pred<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Not</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Everything</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Nothing</span><br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;switchEvent&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">SwitchUp</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.switchId&nbsp;*&nbsp;<span class="constructor">OpenFlow0x01</span>.<span class="constructor">SwitchFeatures</span>.t<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SwitchDown</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.switchId<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;pol&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">HandleSwitchEvent</span>&nbsp;<span class="keyword">of</span>&nbsp;(<span class="constructor">NetCore_Types</span>.switchEvent&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PoAction</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.action<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PoFilter</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PoUnion</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pol&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pol<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PoSeq</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pol&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pol<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">PoITE</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pol&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pol<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Action</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.action<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Filter</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Union</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pol&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pol<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Seq</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pol&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pol<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ITE</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.pred&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pol&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.pol<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;value&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Pkt</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">NetCore_Types</span>.switchId&nbsp;*&nbsp;<span class="constructor">NetCore_Types</span>.port&nbsp;*&nbsp;<span class="constructor">Packet</span>.packet&nbsp;*<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">OpenFlow0x01</span>.<span class="constructor">Payload</span>.t<br>

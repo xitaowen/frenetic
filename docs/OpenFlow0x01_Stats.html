@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="OpenFlow0x01_Core.html">
+<link rel="next" href="Ox.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Packet" rel="Chapter" href="Packet.html">
+<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
+<link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
+<link title="Ox" rel="Chapter" href="Ox.html"><title>OpenFlow0x01_Stats</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="OpenFlow0x01_Core.html" title="OpenFlow0x01_Core">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Ox.html" title="Ox">Next</a>
+</div>
+<h1>Module <a href="type_OpenFlow0x01_Stats.html">OpenFlow0x01_Stats</a></h1>
+<pre><span class="keyword">module</span> OpenFlow0x01_Stats: <code class="code">sig</code> <a href="OpenFlow0x01_Stats.html">..</a> <code class="code">end</code></pre><div class="info">
+Both <code class="code">IndividualRequest</code> and <code class="code">AggregateRequest</code> take as paramters,
+    a <code class="code">pattern</code> that specifies the fields to match, the <code class="code">table_if</code>
+    to read from, and an optional port, which requires matching
+    entries to have this as an output port.<br>
+</div>
+<hr width="100%">
+<pre><code><span id="TYPErequest"><span class="keyword">type</span> <code class="type"></code>request</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrequest.DescriptionRequest"><span class="constructor">DescriptionRequest</span></span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Description of this OpenFlow switch.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrequest.IndividualRequest"><span class="constructor">IndividualRequest</span></span> <span class="keyword">of</span> <code class="type"><a href="OpenFlow0x01_Core.html#TYPEpattern">OpenFlow0x01_Core.pattern</a> * <a href="Packet.html#TYPEint8">Packet.int8</a> * <a href="OpenFlow0x01_Core.html#TYPEpseudoPort">OpenFlow0x01_Core.pseudoPort</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrequest.AggregateRequest"><span class="constructor">AggregateRequest</span></span> <span class="keyword">of</span> <code class="type"><a href="OpenFlow0x01_Core.html#TYPEpattern">OpenFlow0x01_Core.pattern</a> * <a href="Packet.html#TYPEint8">Packet.int8</a> * <a href="OpenFlow0x01_Core.html#TYPEpseudoPort">OpenFlow0x01_Core.pseudoPort</a> option</code></code></td>
+
+</tr></table>
+
+<div class="info">
+Both <code class="code">IndividualRequest</code> and <code class="code">AggregateRequest</code> take as paramters,
+    a <code class="code">pattern</code> that specifies the fields to match, the <code class="code">table_if</code>
+    to read from, and an optional port, which requires matching
+    entries to have this as an output port.<br>
+</div>
+
+<pre><code><span id="TYPEdescriptionStats"><span class="keyword">type</span> <code class="type"></code>descriptionStats</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdescriptionStats.manufacturer">manufacturer</span>&nbsp;:<code class="type">string</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Manufacturer description.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdescriptionStats.hardware">hardware</span>&nbsp;:<code class="type">string</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Hardware description.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdescriptionStats.software">software</span>&nbsp;:<code class="type">string</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Software description.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdescriptionStats.serial_number">serial_number</span>&nbsp;:<code class="type">string</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Serial number.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdescriptionStats.datapath">datapath</span>&nbsp;:<code class="type">string</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Human readable description of datapath.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info">
+The body of a reply to a description request.<br>
+</div>
+
+<pre><code><span id="TYPEindividualStats"><span class="keyword">type</span> <code class="type"></code>individualStats</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.table_id">table_id</span>&nbsp;:<code class="type"><a href="Packet.html#TYPEint8">Packet.int8</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ID of table flow came from.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.of_match">of_match</span>&nbsp;:<code class="type"><a href="OpenFlow0x01_Core.html#TYPEpattern">OpenFlow0x01_Core.pattern</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Description of fields.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.duration_sec">duration_sec</span>&nbsp;:<code class="type">int32</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Time flow has been alive in seconds.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.duration_nsec">duration_nsec</span>&nbsp;:<code class="type">int32</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Time flow has been alive in nanoseconds 
+                                beyond <code class="code">duration_sec</code>.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.priority">priority</span>&nbsp;:<code class="type"><a href="Packet.html#TYPEint16">Packet.int16</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Priority of the entry.  Only meaningful when this
+                           is not an exact-match entry.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.idle_timeout">idle_timeout</span>&nbsp;:<code class="type"><a href="Packet.html#TYPEint16">Packet.int16</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Number of seconds idle before expiration.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.hard_timeout">hard_timeout</span>&nbsp;:<code class="type"><a href="Packet.html#TYPEint16">Packet.int16</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Number of seconds before expiration.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.cookie">cookie</span>&nbsp;:<code class="type">int64</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Opaque controller-issued identifier.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.packet_count">packet_count</span>&nbsp;:<code class="type">int64</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Number of packets in flow.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.byte_count">byte_count</span>&nbsp;:<code class="type">int64</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Number of bytes in flow.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTindividualStats.actions">actions</span>&nbsp;:<code class="type"><a href="OpenFlow0x01_Core.html#TYPEaction">OpenFlow0x01_Core.action</a> list</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Actions.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info">
+The body of a reply to an individual flow statistics request.<br>
+</div>
+
+<pre><code><span id="TYPEaggregateStats"><span class="keyword">type</span> <code class="type"></code>aggregateStats</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaggregateStats.total_packet_count">total_packet_count</span>&nbsp;:<code class="type">int64</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Number of packets in flows.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaggregateStats.total_byte_count">total_byte_count</span>&nbsp;:<code class="type">int64</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Number of bytes in flows.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaggregateStats.flow_count">flow_count</span>&nbsp;:<code class="type">int32</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Number of flows.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+
+<br>
+A statistics reply message.  See Section 5.3.5 of the OpenFlow 1.0 
+      specification.<br>
+<pre><code><span id="TYPEreply"><span class="keyword">type</span> <code class="type"></code>reply</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply.DescriptionRep"><span class="constructor">DescriptionRep</span></span> <span class="keyword">of</span> <code class="type"><a href="OpenFlow0x01_Stats.html#TYPEdescriptionStats">descriptionStats</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply.IndividualFlowRep"><span class="constructor">IndividualFlowRep</span></span> <span class="keyword">of</span> <code class="type"><a href="OpenFlow0x01_Stats.html#TYPEindividualStats">individualStats</a> list</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply.AggregateFlowRep"><span class="constructor">AggregateFlowRep</span></span> <span class="keyword">of</span> <code class="type"><a href="OpenFlow0x01_Stats.html#TYPEaggregateStats">aggregateStats</a></code></code></td>
+
+</tr></table>
+
+
+</body></html>

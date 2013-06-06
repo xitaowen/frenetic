@@ -10,6 +10,7 @@
 <link title="Packet" rel="Chapter" href="Packet.html">
 <link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
 <link title="Ox" rel="Chapter" href="Ox.html"><title>Index of values</title>
 </head>
 <body>
@@ -246,11 +247,6 @@ carries an TCP payload.
 <code class="code">string_of_mac mac</code> pretty-prints an ethernet address.
 </div>
 </td></tr>
-<tr><td><a href="Packet.html#VALstring_of_nw">string_of_nw</a> [<a href="Packet.html">Packet</a>]</td>
-<td><div class="info">
-<code class="code">string_of_nw nw</code> pretty-prints an ethernet frame payload.
-</div>
-</td></tr>
 <tr><td><a href="Packet.html#VALstring_of_nwAddr">string_of_nwAddr</a> [<a href="Packet.html">Packet</a>]</td>
 <td><div class="info">
 <code class="code">string_of_nwAddr addr</code> is identical to <code class="code">string_of_ip</code>.
@@ -264,11 +260,6 @@ carries an TCP payload.
 <tr><td><a href="Packet.html#VALstring_of_nwTos">string_of_nwTos</a> [<a href="Packet.html">Packet</a>]</td>
 <td><div class="info">
 <code class="code">string_of_nwTos t</code> pretty-prints an IPv4 type of service.
-</div>
-</td></tr>
-<tr><td><a href="Packet.html#VALstring_of_packet">string_of_packet</a> [<a href="Packet.html">Packet</a>]</td>
-<td><div class="info">
-<code class="code">string_of_packet pkt</code> pretty-prints a packet.
 </div>
 </td></tr>
 <tr><td><a href="Packet.html#VALstring_of_tpPort">string_of_tpPort</a> [<a href="Packet.html">Packet</a>]</td>
@@ -299,33 +290,8 @@ carries an TCP payload.
   invoke <code class="code">thunk</code>.
 </div>
 </td></tr>
-<tr><td><a href="Packet.Arp.html#VALto_string">to_string</a> [<a href="Packet.Arp.html">Packet.Arp</a>]</td>
-<td><div class="info">
-<code class="code">to_string v</code> pretty-prints <code class="code">v</code>.
-</div>
-</td></tr>
-<tr><td><a href="Packet.Ip.Flags.html#VALto_string">to_string</a> [<a href="Packet.Ip.Flags.html">Packet.Ip.Flags</a>]</td>
+<tr><td><a href="Packet.html#VALto_string">to_string</a> [<a href="Packet.html">Packet</a>]</td>
 <td></td></tr>
-<tr><td><a href="Packet.Ip.html#VALto_string">to_string</a> [<a href="Packet.Ip.html">Packet.Ip</a>]</td>
-<td><div class="info">
-<code class="code">to_string v</code> pretty-prints <code class="code">v</code>.
-</div>
-</td></tr>
-<tr><td><a href="Packet.Icmp.html#VALto_string">to_string</a> [<a href="Packet.Icmp.html">Packet.Icmp</a>]</td>
-<td><div class="info">
-<code class="code">to_string v</code> pretty-prints <code class="code">v</code>.
-</div>
-</td></tr>
-<tr><td><a href="Packet.Tcp.Flags.html#VALto_string">to_string</a> [<a href="Packet.Tcp.Flags.html">Packet.Tcp.Flags</a>]</td>
-<td><div class="info">
-<code class="code">to_string v</code> pretty-prints v.
-</div>
-</td></tr>
-<tr><td><a href="Packet.Tcp.html#VALto_string">to_string</a> [<a href="Packet.Tcp.html">Packet.Tcp</a>]</td>
-<td><div class="info">
-<code class="code">to_string v</code> pretty-prints <code class="code">v</code>.
-</div>
-</td></tr>
 <tr><td><a href="Packet.html#VALtpDst">tpDst</a> [<a href="Packet.html">Packet</a>]</td>
 <td><div class="info">
 <code class="code">tpDst pkt</code> returns the TCP destination port of <code class="code">pkt</code>.

@@ -13,6 +13,7 @@
 <link title="Packet" rel="Chapter" href="Packet.html">
 <link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
+<link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
 <link title="Ox" rel="Chapter" href="Ox.html"><link title="Packet types" rel="Section" href="#9_Packettypes">
 <link title="Accessors" rel="Section" href="#accs">
 <link title="Mutators" rel="Section" href="#9_Mutators">
@@ -281,12 +282,6 @@ carries a TCP payload.  Otherwise, it returns the packet unchanged.<br>
 <pre><span id="VALstring_of_tpPort"><span class="keyword">val</span> string_of_tpPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">tpPort</a> -> string</code></pre><div class="info">
 <code class="code">string_of_tpPort p</code> pretty-prints a TCP port number.<br>
 </div>
-<pre><span id="VALstring_of_nw"><span class="keyword">val</span> string_of_nw</span> : <code class="type"><a href="Packet.html#TYPEnw">nw</a> -> string</code></pre><div class="info">
-<code class="code">string_of_nw nw</code> pretty-prints an ethernet frame payload.<br>
-</div>
-<pre><span id="VALstring_of_packet"><span class="keyword">val</span> string_of_packet</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> string</code></pre><div class="info">
-<code class="code">string_of_packet pkt</code> pretty-prints a packet.<br>
-</div>
 <pre><span id="VALbytes_of_mac"><span class="keyword">val</span> bytes_of_mac</span> : <code class="type"><a href="Packet.html#TYPEdlAddr">dlAddr</a> -> string</code></pre><div class="info">
 <code class="code">bytes_of_mac mac</code> returns a bit-string representation of <code class="code">mac</code>.<br>
 </div>
@@ -302,4 +297,4 @@ carries a TCP payload.  Otherwise, it returns the packet unchanged.<br>
 <pre><span id="VALserialize"><span class="keyword">val</span> serialize</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> Cstruct.t</code></pre><div class="info">
 <code class="code">marshal pkt</code> serializes <code class="code">pkt</code> into a bit sequence.<br>
 </div>
-</body></html>
+<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> string</code></pre></body></html>
