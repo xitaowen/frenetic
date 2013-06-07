@@ -8,11 +8,12 @@
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Packet" rel="Chapter" href="Packet.html">
-<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
+<link title="OxPlatform" rel="Chapter" href="OxPlatform.html">
+<link title="OxStart" rel="Chapter" href="OxStart.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
 <link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
-<link title="Ox" rel="Chapter" href="Ox.html"><title></title>
+<link title="Packet" rel="Chapter" href="Packet.html">
+<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html"><title></title>
 </head>
 <body>
 <h1></h1>
@@ -24,12 +25,12 @@
 </ul>
 <br/><br>
 <table class="indextable">
-<tr><td class="module"><a href="Packet.html">Packet</a></td><td><div class="info">
-Library for constructing, marshaling and parsing ethernet data packets.
+<tr><td class="module"><a href="OxPlatform.html">OxPlatform</a></td><td><div class="info">
+Functions that an Ox controller can use to send OpenFlow messages.
 </div>
 </td></tr>
-<tr><td class="module"><a href="NetCore_Types.html">NetCore_Types</a></td><td><div class="info">
-Library for building the underlying infrastructure of Frenetic controllers.
+<tr><td class="module"><a href="OxStart.html">OxStart</a></td><td><div class="info">
+Launches an Ox application.
 </div>
 </td></tr>
 <tr><td class="module"><a href="OpenFlow0x01_Core.html">OpenFlow0x01_Core</a></td><td><div class="info">
@@ -37,15 +38,18 @@ Library for constructing, marshalling, and parsing OpenFlow 1.0 messages.
 </div>
 </td></tr>
 <tr><td class="module"><a href="OpenFlow0x01_Stats.html">OpenFlow0x01_Stats</a></td><td><div class="info">
-Both <code class="code">IndividualRequest</code> and <code class="code">AggregateRequest</code> take as paramters,
+Both <code class="code"><span class="constructor">IndividualRequest</span></code> and <code class="code"><span class="constructor">AggregateRequest</span></code> take as paramters,
     a <code class="code">pattern</code> that specifies the fields to match, the <code class="code">table_if</code>
     to read from, and an optional port, which requires matching
     entries to have this as an output port.
 </div>
 </td></tr>
-<tr><td class="module"><a href="Ox.html">Ox</a></td><td><div class="info">
-An OpenFlow controller interface for directly sending and receiving
-OpenFlow messages.
+<tr><td class="module"><a href="Packet.html">Packet</a></td><td><div class="info">
+Library for constructing, marshaling and parsing ethernet data packets.
+</div>
+</td></tr>
+<tr><td class="module"><a href="NetCore_Types.html">NetCore_Types</a></td><td><div class="info">
+Library for building the underlying infrastructure of Frenetic controllers.
 </div>
 </td></tr>
 </table>

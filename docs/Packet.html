@@ -4,17 +4,19 @@
 <link rel="stylesheet" href="style.css" type="text/css">
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
 <link rel="Start" href="index.html">
+<link rel="previous" href="OpenFlow0x01_Stats.html">
 <link rel="next" href="NetCore_Types.html">
 <link rel="Up" href="index.html">
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Packet" rel="Chapter" href="Packet.html">
-<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
+<link title="OxPlatform" rel="Chapter" href="OxPlatform.html">
+<link title="OxStart" rel="Chapter" href="OxStart.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
 <link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
-<link title="Ox" rel="Chapter" href="Ox.html"><link title="Packet types" rel="Section" href="#9_Packettypes">
+<link title="Packet" rel="Chapter" href="Packet.html">
+<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html"><link title="Packet types" rel="Section" href="#9_Packettypes">
 <link title="Accessors" rel="Section" href="#accs">
 <link title="Mutators" rel="Section" href="#9_Mutators">
 <link title="Pretty Printing" rel="Section" href="#9_PrettyPrinting">
@@ -22,11 +24,12 @@
 <title>Packet</title>
 </head>
 <body>
-<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+<div class="navbar"><a class="pre" href="OpenFlow0x01_Stats.html" title="OpenFlow0x01_Stats">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
 &nbsp;<a class="post" href="NetCore_Types.html" title="NetCore_Types">Next</a>
 </div>
 <h1>Module <a href="type_Packet.html">Packet</a></h1>
-<pre><span class="keyword">module</span> Packet: <code class="code">sig</code> <a href="Packet.html">..</a> <code class="code">end</code></pre><div class="info">
+<pre><span class="keyword">module</span> Packet: <code class="code"><span class="keyword">sig</span></code> <a href="Packet.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
 Library for constructing, marshaling and parsing ethernet data packets.<br>
 </div>
 <hr width="100%">
@@ -74,7 +77,7 @@ library.<br>
 
 <pre><span id="TYPEdlVlan"><span class="keyword">type</span> <code class="type"></code>dlVlan</span> = <code class="type"><a href="Packet.html#TYPEint16">int16</a> option</code> </pre>
 <div class="info">
-<code class="code">dlVlan</code> is the type of VLAN identifiers.  A value of <code class="code">None</code> indicates that
+<code class="code">dlVlan</code> is the type of VLAN identifiers.  A value of <code class="code"><span class="constructor">None</span></code> indicates that
 no 802.1Q (VLAN) header is set, which is distinct from setting the VLAN to 0.<br>
 </div>
 
@@ -103,16 +106,16 @@ no 802.1Q (VLAN) header is set, which is distinct from setting the VLAN to 0.<br
 <code class="code">tpPort</code> is the type of TCP ports.<br>
 </div>
 
-<pre><span class="keyword">module</span> <a href="Packet.Tcp.html">Tcp</a>: <code class="code">sig</code> <a href="Packet.Tcp.html">..</a> <code class="code">end</code></pre><div class="info">
+<pre><span class="keyword">module</span> <a href="Packet.Tcp.html">Tcp</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Packet.Tcp.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
 TCP frame of a packet.
 </div>
-<pre><span class="keyword">module</span> <a href="Packet.Icmp.html">Icmp</a>: <code class="code">sig</code> <a href="Packet.Icmp.html">..</a> <code class="code">end</code></pre><div class="info">
+<pre><span class="keyword">module</span> <a href="Packet.Icmp.html">Icmp</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Packet.Icmp.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
 ICMP frame of a packet.
 </div>
-<pre><span class="keyword">module</span> <a href="Packet.Ip.html">Ip</a>: <code class="code">sig</code> <a href="Packet.Ip.html">..</a> <code class="code">end</code></pre><div class="info">
+<pre><span class="keyword">module</span> <a href="Packet.Ip.html">Ip</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Packet.Ip.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
 IPv4 frame of a packet.
 </div>
-<pre><span class="keyword">module</span> <a href="Packet.Arp.html">Arp</a>: <code class="code">sig</code> <a href="Packet.Arp.html">..</a> <code class="code">end</code></pre><div class="info">
+<pre><span class="keyword">module</span> <a href="Packet.Arp.html">Arp</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Packet.Arp.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
 Address resolution protocol (ARP) packet payload.
 </div>
 <pre><code><span id="TYPEnw"><span class="keyword">type</span> <code class="type"></code>nw</span> = </code></pre><table class="typetable">
@@ -171,7 +174,7 @@ Address resolution protocol (ARP) packet payload.
 <td align="left" valign="top" >
 <code><span id="TYPEELTpacket.dlVlanPcp">dlVlanPcp</span>&nbsp;:<code class="type"><a href="Packet.html#TYPEdlVlanPcp">dlVlanPcp</a></code>;</code></td>
 <td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >802.1Q VLAN priority.  Ignored if <code class="code">dlVlan</code> is 
-                          <code class="code">None</code>.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+                          <code class="code"><span class="constructor">None</span></code>.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
 <tr>
 <td align="left" valign="top" >
@@ -259,7 +262,7 @@ carries a TCP payload.  Otherwise, it returns the packet unchanged.<br>
 <code class="code">string_of_dlAddr addr</code> is identical to <code class="code">string_of_mac</code>.<br>
 </div>
 <pre><span id="VALstring_of_dlTyp"><span class="keyword">val</span> string_of_dlTyp</span> : <code class="type"><a href="Packet.html#TYPEdlTyp">dlTyp</a> -> string</code></pre><div class="info">
-<code class="code">string_of_dlTyp typ</code> pretty-prints an IPv4 type of service.<br>
+<code class="code">string_of_dlTyp typ</code> pretty-prints an ethernet frame type.<br>
 </div>
 <pre><span id="VALstring_of_dlVlan"><span class="keyword">val</span> string_of_dlVlan</span> : <code class="type"><a href="Packet.html#TYPEdlVlan">dlVlan</a> -> string</code></pre><div class="info">
 <code class="code">string_of_dlVlan vlan</code> pretty-prints an 802.1Q VLAN identifier.<br>
@@ -297,4 +300,4 @@ carries a TCP payload.  Otherwise, it returns the packet unchanged.<br>
 <pre><span id="VALserialize"><span class="keyword">val</span> serialize</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> Cstruct.t</code></pre><div class="info">
 <code class="code">marshal pkt</code> serializes <code class="code">pkt</code> into a bit sequence.<br>
 </div>
-<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> string</code></pre></body></html>
+<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> string</code></pre><pre><span id="VALformat_packet"><span class="keyword">val</span> format_packet</span> : <code class="type">Format.formatter -> <a href="Packet.html#TYPEpacket">packet</a> -> unit</code></pre></body></html>

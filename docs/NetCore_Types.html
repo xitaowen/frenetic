@@ -5,29 +5,28 @@
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
 <link rel="Start" href="index.html">
 <link rel="previous" href="Packet.html">
-<link rel="next" href="OpenFlow0x01_Core.html">
 <link rel="Up" href="index.html">
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Packet" rel="Chapter" href="Packet.html">
-<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
+<link title="OxPlatform" rel="Chapter" href="OxPlatform.html">
+<link title="OxStart" rel="Chapter" href="OxStart.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
 <link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
-<link title="Ox" rel="Chapter" href="Ox.html"><title>NetCore_Types</title>
+<link title="Packet" rel="Chapter" href="Packet.html">
+<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html"><title>NetCore_Types</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Packet.html" title="Packet">Previous</a>
 &nbsp;<a class="up" href="index.html" title="Index">Up</a>
-&nbsp;<a class="post" href="OpenFlow0x01_Core.html" title="OpenFlow0x01_Core">Next</a>
-</div>
+&nbsp;</div>
 <h1>Module <a href="type_NetCore_Types.html">NetCore_Types</a></h1>
-<pre><span class="keyword">module</span> NetCore_Types: <code class="code">sig</code> <a href="NetCore_Types.html">..</a> <code class="code">end</code></pre><div class="info">
+<pre><span class="keyword">module</span> NetCore_Types: <code class="code"><span class="keyword">sig</span></code> <a href="NetCore_Types.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
 Library for building the underlying infrastructure of Frenetic controllers.<br>
 </div>
 <hr width="100%">
-<pre><span id="TYPEswitchId"><span class="keyword">type</span> <code class="type"></code>switchId</span> = <code class="type">OpenFlow0x01.switchId</code> </pre>
+<pre><span id="TYPEswitchId"><span class="keyword">type</span> <code class="type"></code>switchId</span> = <code class="type"><a href="OpenFlow0x01_Core.html#TYPEswitchId">OpenFlow0x01_Core.switchId</a></code> </pre>
 
 <pre><code><span id="TYPEwildcard"><span class="keyword">type</span> <code class="type">'a</code> wildcard</span> = </code></pre><table class="typetable">
 <tr>
@@ -58,7 +57,7 @@ Library for building the underlying infrastructure of Frenetic controllers.<br>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTport.Physical"><span class="constructor">Physical</span></span> <span class="keyword">of</span> <code class="type">OpenFlow0x01.portId</code></code></td>
+<code><span id="TYPEELTport.Physical"><span class="constructor">Physical</span></span> <span class="keyword">of</span> <code class="type"><a href="OpenFlow0x01_Core.html#TYPEportId">OpenFlow0x01_Core.portId</a></code></code></td>
 
 </tr>
 <tr>
@@ -98,7 +97,7 @@ Library for building the underlying infrastructure of Frenetic controllers.<br>
 <td align="left" valign="top" >
 <code>&nbsp;&nbsp;</code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTptrn.ptrnDlType">ptrnDlType</span>&nbsp;:<code class="type"><a href="Packet.html#TYPEdlTyp">Packet.dlTyp</a> <a href="NetCore_Types.html#TYPEwildcard">wildcard</a></code>;</code></td>
+<code><span id="TYPEELTptrn.ptrnDlTyp">ptrnDlTyp</span>&nbsp;:<code class="type"><a href="Packet.html#TYPEdlTyp">Packet.dlTyp</a> <a href="NetCore_Types.html#TYPEwildcard">wildcard</a></code>;</code></td>
 
 </tr>
 <tr>
@@ -243,7 +242,7 @@ Library for building the underlying infrastructure of Frenetic controllers.<br>
 }
 
 <div class="info">
-Note that OpenFlow does not allow the <code class="code">dlType</code> and <code class="code">nwProto</code>
+Note that OpenFlow does not allow the <code class="code">dlTyp</code> and <code class="code">nwProto</code>
       fields to be modified.<br>
 </div>
 
@@ -401,4 +400,4 @@ Note that OpenFlow does not allow the <code class="code">dlType</code> and <code
 </tr></table>
 
 
-<pre><span id="VALall"><span class="keyword">val</span> all</span> : <code class="type"><a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type"><a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlSrc"><span class="keyword">val</span> dlSrc</span> : <code class="type"><a href="Packet.html#TYPEdlAddr">Packet.dlAddr</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlDst"><span class="keyword">val</span> dlDst</span> : <code class="type"><a href="Packet.html#TYPEdlAddr">Packet.dlAddr</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlType"><span class="keyword">val</span> dlType</span> : <code class="type"><a href="Packet.html#TYPEdlTyp">Packet.dlTyp</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlVlan"><span class="keyword">val</span> dlVlan</span> : <code class="type"><a href="Packet.html#TYPEdlVlan">Packet.dlVlan</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlVlanPcp"><span class="keyword">val</span> dlVlanPcp</span> : <code class="type"><a href="Packet.html#TYPEdlVlanPcp">Packet.dlVlanPcp</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALipSrc"><span class="keyword">val</span> ipSrc</span> : <code class="type"><a href="Packet.html#TYPEnwAddr">Packet.nwAddr</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALipDst"><span class="keyword">val</span> ipDst</span> : <code class="type"><a href="Packet.html#TYPEnwAddr">Packet.nwAddr</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALipProto"><span class="keyword">val</span> ipProto</span> : <code class="type"><a href="Packet.html#TYPEnwProto">Packet.nwProto</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALinPort"><span class="keyword">val</span> inPort</span> : <code class="type"><a href="NetCore_Types.html#TYPEport">port</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALtcpSrcPort"><span class="keyword">val</span> tcpSrcPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">Packet.tpPort</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALtcpDstPort"><span class="keyword">val</span> tcpDstPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">Packet.tpPort</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALudpSrcPort"><span class="keyword">val</span> udpSrcPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">Packet.tpPort</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALudpDstPort"><span class="keyword">val</span> udpDstPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">Packet.tpPort</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre></body></html>
+<pre><span id="VALall"><span class="keyword">val</span> all</span> : <code class="type"><a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type"><a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlSrc"><span class="keyword">val</span> dlSrc</span> : <code class="type"><a href="Packet.html#TYPEdlAddr">Packet.dlAddr</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlDst"><span class="keyword">val</span> dlDst</span> : <code class="type"><a href="Packet.html#TYPEdlAddr">Packet.dlAddr</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlTyp"><span class="keyword">val</span> dlTyp</span> : <code class="type"><a href="Packet.html#TYPEdlTyp">Packet.dlTyp</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlVlan"><span class="keyword">val</span> dlVlan</span> : <code class="type"><a href="Packet.html#TYPEdlVlan">Packet.dlVlan</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALdlVlanPcp"><span class="keyword">val</span> dlVlanPcp</span> : <code class="type"><a href="Packet.html#TYPEdlVlanPcp">Packet.dlVlanPcp</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALipSrc"><span class="keyword">val</span> ipSrc</span> : <code class="type"><a href="Packet.html#TYPEnwAddr">Packet.nwAddr</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALipDst"><span class="keyword">val</span> ipDst</span> : <code class="type"><a href="Packet.html#TYPEnwAddr">Packet.nwAddr</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALipProto"><span class="keyword">val</span> ipProto</span> : <code class="type"><a href="Packet.html#TYPEnwProto">Packet.nwProto</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALipTos"><span class="keyword">val</span> ipTos</span> : <code class="type"><a href="Packet.html#TYPEnwTos">Packet.nwTos</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALinPort"><span class="keyword">val</span> inPort</span> : <code class="type"><a href="NetCore_Types.html#TYPEport">port</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALtcpSrcPort"><span class="keyword">val</span> tcpSrcPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">Packet.tpPort</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALtcpDstPort"><span class="keyword">val</span> tcpDstPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">Packet.tpPort</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALudpSrcPort"><span class="keyword">val</span> udpSrcPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">Packet.tpPort</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre><pre><span id="VALudpDstPort"><span class="keyword">val</span> udpDstPort</span> : <code class="type"><a href="Packet.html#TYPEtpPort">Packet.tpPort</a> -> <a href="NetCore_Types.html#TYPEptrn">ptrn</a></code></pre></body></html>

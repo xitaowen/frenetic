@@ -7,11 +7,12 @@
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Packet" rel="Chapter" href="Packet.html">
-<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
+<link title="OxPlatform" rel="Chapter" href="OxPlatform.html">
+<link title="OxStart" rel="Chapter" href="OxStart.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
 <link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
-<link title="Ox" rel="Chapter" href="Ox.html"><title>Index of modules</title>
+<link title="Packet" rel="Chapter" href="Packet.html">
+<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html"><title>Index of modules</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
@@ -22,6 +23,13 @@
 <tr><td><a href="Packet.Arp.html">Arp</a> [<a href="Packet.html">Packet</a>]</td>
 <td><div class="info">
 Address resolution protocol (ARP) packet payload.
+</div>
+</td></tr>
+<tr><td align="left"><br>D</td></tr>
+<tr><td><a href="OxStart.DefaultTutorialHandlers.html">DefaultTutorialHandlers</a> [<a href="OxStart.html">OxStart</a>]</td>
+<td><div class="info">
+Provides default implementations for some advanced event handlers,
+    reducing clutter in simple controllers.
 </div>
 </td></tr>
 <tr><td align="left"><br>F</td></tr>
@@ -44,9 +52,9 @@ IPv4 frame of a packet.
 </div>
 </td></tr>
 <tr><td align="left"><br>M</td></tr>
-<tr><td><a href="Ox.Make.html">Make</a> [<a href="Ox.html">Ox</a>]</td>
+<tr><td><a href="OxStart.Make.html">Make</a> [<a href="OxStart.html">OxStart</a>]</td>
 <td><div class="info">
-Given an <code class="code">OXMODULE</code> module, produce an Ox controller that, when run,
+Given an <code class="code"><span class="constructor">OXMODULE</span></code> module, produce an Ox controller that, when run,
 listens on port 6633 for messages from OpenFlow-enabled switches.
 </div>
 </td></tr>
@@ -64,28 +72,20 @@ Library for constructing, marshalling, and parsing OpenFlow 1.0 messages.
 </td></tr>
 <tr><td><a href="OpenFlow0x01_Stats.html">OpenFlow0x01_Stats</a> </td>
 <td><div class="info">
-Both <code class="code">IndividualRequest</code> and <code class="code">AggregateRequest</code> take as paramters,
+Both <code class="code"><span class="constructor">IndividualRequest</span></code> and <code class="code"><span class="constructor">AggregateRequest</span></code> take as paramters,
     a <code class="code">pattern</code> that specifies the fields to match, the <code class="code">table_if</code>
     to read from, and an optional port, which requires matching
     entries to have this as an output port.
 </div>
 </td></tr>
-<tr><td><a href="Ox.html">Ox</a> </td>
+<tr><td><a href="OxPlatform.html">OxPlatform</a> </td>
 <td><div class="info">
-An OpenFlow controller interface for directly sending and receiving
-OpenFlow messages.
+Functions that an Ox controller can use to send OpenFlow messages.
 </div>
 </td></tr>
-<tr><td><a href="Ox.OxDefaults.html">OxDefaults</a> [<a href="Ox.html">Ox</a>]</td>
+<tr><td><a href="OxStart.html">OxStart</a> </td>
 <td><div class="info">
-Provides default implementations for some advanced event handlers,
-    reducing clutter in simple controllers.
-</div>
-</td></tr>
-<tr><td><a href="Ox.OxPlatform.html">OxPlatform</a> [<a href="Ox.html">Ox</a>]</td>
-<td><div class="info">
-The <code class="code">OxPlatform</code> module contains functions for interacting with the Ox
-controller and the underlying OpenFlow network.
+Launches an Ox application.
 </div>
 </td></tr>
 <tr><td align="left"><br>P</td></tr>

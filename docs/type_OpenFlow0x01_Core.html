@@ -6,11 +6,12 @@
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Packet" rel="Chapter" href="Packet.html">
-<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html">
+<link title="OxPlatform" rel="Chapter" href="OxPlatform.html">
+<link title="OxStart" rel="Chapter" href="OxStart.html">
 <link title="OpenFlow0x01_Core" rel="Chapter" href="OpenFlow0x01_Core.html">
 <link title="OpenFlow0x01_Stats" rel="Chapter" href="OpenFlow0x01_Stats.html">
-<link title="Ox" rel="Chapter" href="Ox.html"><title>OpenFlow0x01_Core</title>
+<link title="Packet" rel="Chapter" href="Packet.html">
+<link title="NetCore_Types" rel="Chapter" href="NetCore_Types.html"><title>OpenFlow0x01_Core</title>
 </head>
 <body>
 <code class="code"><span class="keyword">sig</span><br>
@@ -41,7 +42,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Output</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pseudoPort<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetDlVlan</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlVlan<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetDlVlanPcp</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlVlanPcp<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">StripVlan</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetDlSrc</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlAddr<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetDlDst</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.dlAddr<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">SetNwSrc</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Packet</span>.nwAddr<br>
@@ -91,4 +91,5 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pattern&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.action&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.flowMod<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;delete_all_flows&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.flowMod<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;packetIn_to_string&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.packetIn&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
 <span class="keyword">end</span></code></body></html>
