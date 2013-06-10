@@ -85,6 +85,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;apply_actions&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.action&nbsp;list;<br>
 &nbsp;&nbsp;}<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;parse_payload&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.payload&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Packet</span>.packet<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;marshal_payload&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int32&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Packet</span>.packet&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.payload<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;match_all&nbsp;:&nbsp;<span class="constructor">OpenFlow0x01_Core</span>.pattern<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_flow&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Packet</span>.int16&nbsp;<span class="keywordsign">-&gt;</span><br>

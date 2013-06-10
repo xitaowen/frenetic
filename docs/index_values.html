@@ -54,7 +54,7 @@
 <td></td></tr>
 <tr><td><a href="Packet.html#VALdlTyp">dlTyp</a> [<a href="Packet.html">Packet</a>]</td>
 <td><div class="info">
-<code class="code">dlTyp pkt</code> returns the EtherType of <code class="code">pkt</code>.
+<code class="code">dlTyp pkt</code> returns the ethernet frame type of <code class="code">pkt</code>
 </div>
 </td></tr>
 <tr><td><a href="NetCore_Types.html#VALdlVlan">dlVlan</a> [<a href="NetCore_Types.html">NetCore_Types</a>]</td>
@@ -86,6 +86,17 @@
 <code class="code">mac_of_bytes str</code> constructs a <code class="code">dlAddr</code> from a bit-string representation.
 </div>
 </td></tr>
+<tr><td><a href="Packet.html#VALmarshal">marshal</a> [<a href="Packet.html">Packet</a>]</td>
+<td><div class="info">
+<code class="code">marshal pkt</code> marshals <code class="code">pkt</code> into a bit sequence.
+</div>
+</td></tr>
+<tr><td><a href="OpenFlow0x01_Core.html#VALmarshal_payload">marshal_payload</a> [<a href="OpenFlow0x01_Core.html">OpenFlow0x01_Core</a>]</td>
+<td><div class="info">
+<code class="code">marshal_payload buf pkt</code> serializes pkt, where <code class="code">buf</code> is an optional 
+buffer ID.
+</div>
+</td></tr>
 <tr><td><a href="OpenFlow0x01_Core.html#VALmatch_all">match_all</a> [<a href="OpenFlow0x01_Core.html">OpenFlow0x01_Core</a>]</td>
 <td><div class="info">
 A pattern that matches all packets.
@@ -99,7 +110,7 @@ A pattern that matches all packets.
 </td></tr>
 <tr><td><a href="Packet.html#VALnwProto">nwProto</a> [<a href="Packet.html">Packet</a>]</td>
 <td><div class="info">
-<code class="code">nwProto pkt</code> returns the IPv4 protocol of <code class="code">pkt</code>.
+<code class="code">nwProto pkt</code> returns the IP protocol number of <code class="code">pkt</code>.
 </div>
 </td></tr>
 <tr><td><a href="Packet.html#VALnwSrc">nwSrc</a> [<a href="Packet.html">Packet</a>]</td>
@@ -154,11 +165,6 @@ A pattern that matches all packets.
 <td><div class="info">
 <code class="code">send_stats_request sw xid req</code> sends a stats request
     message with transaction ID <code class="code">xid</code> to switch <code class="code">sw</code>.
-</div>
-</td></tr>
-<tr><td><a href="Packet.html#VALserialize">serialize</a> [<a href="Packet.html">Packet</a>]</td>
-<td><div class="info">
-<code class="code">marshal pkt</code> serializes <code class="code">pkt</code> into a bit sequence.
 </div>
 </td></tr>
 <tr><td><a href="Packet.html#VALsetDlDst">setDlDst</a> [<a href="Packet.html">Packet</a>]</td>
@@ -276,6 +282,8 @@ carries an TCP payload.
   identifer <code class="code">sw</code> connects to the controller.
 </div>
 </td></tr>
+<tr><td><a href="OxStart.DefaultTutorialHandlers.html#VALswitch_connected">switch_connected</a> [<a href="OxStart.DefaultTutorialHandlers.html">OxStart.DefaultTutorialHandlers</a>]</td>
+<td></td></tr>
 <tr><td><a href="OxStart.OXMODULE.html#VALswitch_disconnected">switch_disconnected</a> [<a href="OxStart.OXMODULE.html">OxStart.OXMODULE</a>]</td>
 <td><div class="info">
 <code class="code">switch_disconnected sw</code> is a callback invoked with <code class="code">sw</code> when a switch

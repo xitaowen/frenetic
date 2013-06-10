@@ -20,7 +20,7 @@
 <link title="Accessors" rel="Section" href="#accs">
 <link title="Mutators" rel="Section" href="#9_Mutators">
 <link title="Pretty Printing" rel="Section" href="#9_PrettyPrinting">
-<link title="Serialization" rel="Section" href="#serialize">
+<link title="Serialization" rel="Section" href="#marshal">
 <title>Packet</title>
 </head>
 <body>
@@ -192,7 +192,7 @@ Address resolution protocol (ARP) packet payload.
 <br>
 <div class="h9" id="accs">Accessors</div><br>
 <pre><span id="VALdlTyp"><span class="keyword">val</span> dlTyp</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> <a href="Packet.html#TYPEdlTyp">dlTyp</a></code></pre><div class="info">
-<code class="code">dlTyp pkt</code> returns the EtherType of <code class="code">pkt</code>.<br>
+<code class="code">dlTyp pkt</code> returns the ethernet frame type of <code class="code">pkt</code><br>
 </div>
 <pre><span id="VALnwSrc"><span class="keyword">val</span> nwSrc</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> <a href="Packet.html#TYPEnwAddr">nwAddr</a></code></pre><div class="info">
 <code class="code">nwSrc pkt</code> returns the source IP address of <code class="code">pkt</code>.<br>
@@ -207,7 +207,7 @@ Address resolution protocol (ARP) packet payload.
 <b>Raises</b> <code>Invalid_argument</code> if the packet is not carrying an IP payload.<br>
 </div>
 <pre><span id="VALnwProto"><span class="keyword">val</span> nwProto</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> <a href="Packet.html#TYPEnwProto">nwProto</a></code></pre><div class="info">
-<code class="code">nwProto pkt</code> returns the IPv4 protocol of <code class="code">pkt</code>.<br>
+<code class="code">nwProto pkt</code> returns the IP protocol number of <code class="code">pkt</code>.<br>
 <b>Raises</b> <code>Invalid_argument</code> if the packet is not carrying an IP payload.<br>
 </div>
 <pre><span id="VALtpSrc"><span class="keyword">val</span> tpSrc</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> <a href="Packet.html#TYPEtpPort">tpPort</a></code></pre><div class="info">
@@ -293,11 +293,11 @@ carries a TCP payload.  Otherwise, it returns the packet unchanged.<br>
 <b>Raises</b> <code>Invalid_argument</code> if the length of the string is not six characters.<br>
 </div>
 <br>
-<div class="h9" id="serialize">Serialization</div><br>
+<div class="h9" id="marshal">Serialization</div><br>
 <pre><span id="VALparse"><span class="keyword">val</span> parse</span> : <code class="type">Cstruct.t -> <a href="Packet.html#TYPEpacket">packet</a></code></pre><div class="info">
 <code class="code">parse bits</code> parses a bit sequence into a packet.<br>
 </div>
-<pre><span id="VALserialize"><span class="keyword">val</span> serialize</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> Cstruct.t</code></pre><div class="info">
-<code class="code">marshal pkt</code> serializes <code class="code">pkt</code> into a bit sequence.<br>
+<pre><span id="VALmarshal"><span class="keyword">val</span> marshal</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> Cstruct.t</code></pre><div class="info">
+<code class="code">marshal pkt</code> marshals <code class="code">pkt</code> into a bit sequence.<br>
 </div>
 <pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type"><a href="Packet.html#TYPEpacket">packet</a> -> string</code></pre><pre><span id="VALformat_packet"><span class="keyword">val</span> format_packet</span> : <code class="type">Format.formatter -> <a href="Packet.html#TYPEpacket">packet</a> -> unit</code></pre></body></html>

@@ -26,9 +26,10 @@
 <h1>Module <a href="type_OpenFlow0x01_Stats.html">OpenFlow0x01_Stats</a></h1>
 <pre><span class="keyword">module</span> OpenFlow0x01_Stats: <code class="code"><span class="keyword">sig</span></code> <a href="OpenFlow0x01_Stats.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
 Both <code class="code"><span class="constructor">IndividualRequest</span></code> and <code class="code"><span class="constructor">AggregateRequest</span></code> take as paramters,
-    a <code class="code">pattern</code> that specifies the fields to match, the <code class="code">table_if</code>
+    a <code class="code">pattern</code> that specifies the fields to match, the <code class="code">table_id</code>
     to read from, and an optional port, which requires matching
-    entries to have this as an output port.<br>
+    entries to have this as an output port.  Use table ID <code class="code">0xFF</code> to
+    read from all tables.<br>
 </div>
 <hr width="100%">
 <pre><code><span id="TYPErequest"><span class="keyword">type</span> <code class="type"></code>request</span> = </code></pre><table class="typetable">
@@ -56,9 +57,10 @@ Both <code class="code"><span class="constructor">IndividualRequest</span></code
 
 <div class="info">
 Both <code class="code"><span class="constructor">IndividualRequest</span></code> and <code class="code"><span class="constructor">AggregateRequest</span></code> take as paramters,
-    a <code class="code">pattern</code> that specifies the fields to match, the <code class="code">table_if</code>
+    a <code class="code">pattern</code> that specifies the fields to match, the <code class="code">table_id</code>
     to read from, and an optional port, which requires matching
-    entries to have this as an output port.<br>
+    entries to have this as an output port.  Use table ID <code class="code">0xFF</code> to
+    read from all tables.<br>
 </div>
 
 <pre><code><span id="TYPEdescriptionStats"><span class="keyword">type</span> <code class="type"></code>descriptionStats</span> = {</code></pre><table class="typetable">

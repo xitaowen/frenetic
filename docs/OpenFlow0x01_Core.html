@@ -479,7 +479,8 @@ The payload for <code class="code">packetIn</code> and <code class="code">packet
 <code>&nbsp;&nbsp;</code></td>
 <td align="left" valign="top" >
 <code><span id="TYPEELTpacketIn.input_payload">input_payload</span>&nbsp;:<code class="type"><a href="OpenFlow0x01_Core.html#TYPEpayload">payload</a></code>;</code></td>
-
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >The packet contents, which may truncated, in which case, 
+        the full packet is buffered on the switch.</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
 </tr>
 <tr>
 <td align="left" valign="top" >
@@ -541,7 +542,11 @@ A send-packet message.  See Section 5.3.6 of the OpenFlow 1.0
 
 <br>
 <h2 id="2_ConvenientFunctions">Convenient Functions</h2><br>
-<pre><span id="VALparse_payload"><span class="keyword">val</span> parse_payload</span> : <code class="type"><a href="OpenFlow0x01_Core.html#TYPEpayload">payload</a> -> <a href="Packet.html#TYPEpacket">Packet.packet</a></code></pre><pre><span id="VALmatch_all"><span class="keyword">val</span> match_all</span> : <code class="type"><a href="OpenFlow0x01_Core.html#TYPEpattern">pattern</a></code></pre><div class="info">
+<pre><span id="VALparse_payload"><span class="keyword">val</span> parse_payload</span> : <code class="type"><a href="OpenFlow0x01_Core.html#TYPEpayload">payload</a> -> <a href="Packet.html#TYPEpacket">Packet.packet</a></code></pre><pre><span id="VALmarshal_payload"><span class="keyword">val</span> marshal_payload</span> : <code class="type">int32 option -> <a href="Packet.html#TYPEpacket">Packet.packet</a> -> <a href="OpenFlow0x01_Core.html#TYPEpayload">payload</a></code></pre><div class="info">
+<code class="code">marshal_payload buf pkt</code> serializes pkt, where <code class="code">buf</code> is an optional 
+buffer ID.<br>
+</div>
+<pre><span id="VALmatch_all"><span class="keyword">val</span> match_all</span> : <code class="type"><a href="OpenFlow0x01_Core.html#TYPEpattern">pattern</a></code></pre><div class="info">
 A pattern that matches all packets. (All fields wildcarded.)<br>
 </div>
 <pre><span id="VALadd_flow"><span class="keyword">val</span> add_flow</span> : <code class="type"><a href="Packet.html#TYPEint16">Packet.int16</a> -><br>       <a href="OpenFlow0x01_Core.html#TYPEpattern">pattern</a> -><br>       <a href="OpenFlow0x01_Core.html#TYPEaction">action</a> list -> <a href="OpenFlow0x01_Core.html#TYPEflowMod">flowMod</a></code></pre><div class="info">
@@ -602,13 +607,13 @@ A pattern that matches all packets. (All fields wildcarded.)<br>
     This pattern matches all packets with source IP address 10.0.0.1:
 <p>
 
-    <code class="code"><span class="keyword">let</span> from_10_0_0_1 = { match_all <span class="keyword">with</span> dlTyp = <span class="constructor">Some</span> 0x800; nwSrc = 0x10000001 }</code>
+    <code class="code"><span class="keyword">let</span> from_10_0_0_1 = { match_all <span class="keyword">with</span> dlTyp = <span class="constructor">Some</span> 0x800; nwSrc = <span class="constructor">Some</span> 0x10000001 }</code>
 <p>
 
     This pattern matches all TCP packets:
-    <code class="code"><span class="keyword">let</span> al_tcp = { match_all <span class="keyword">with</span> dlTyp = <span class="constructor">Some</span> 0x800; nwProto = 6 }</code>
+    <code class="code"><span class="keyword">let</span> al_tcp = { match_all <span class="keyword">with</span> dlTyp = <span class="constructor">Some</span> 0x800; nwProto = <span class="constructor">Some</span> 6 }</code>
 <p>
 
     Note that to match IP-level headers, e.g., <code class="code">nwProto</code> and <code class="code">nwSrc</code>),
-    we have to write <code class="code">dlTye = <span class="constructor">Some</span> 0x800</code>, or they are ignored.<br>
+    we have to write <code class="code">dlTyp = <span class="constructor">Some</span> 0x800</code>, or they are ignored.<br>
 </body></html>
