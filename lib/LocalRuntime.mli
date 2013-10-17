@@ -1,3 +1,11 @@
+module type REALIZABLE_HEADERS = sig
+  include Semantics.HEADERS
+
+  type r_header
+
+  val realize_header : header -> r_header option
+end
+
 module type S = sig
 
   type policy
@@ -10,4 +18,3 @@ module type S = sig
 
   val to_table : sw -> impl -> flowTable
 end
-
