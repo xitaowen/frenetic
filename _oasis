@@ -44,6 +44,7 @@ Library netcore
     NetCore_SurfaceSyntax,
     NetKAT_Types,
     LocalCompiler,
+    LocalRuntime,
     Dehop,
     NetKAT_Lexer,
     NetKAT_Parser,
