@@ -52,12 +52,6 @@ module Make
    and type pred = Syntax.pred
    and type header_val_map = Syntax.header_val_map
 
-module Local : sig
-  type t
-  val of_policy : NetKAT_Types.policy -> t
-  val to_netkat : t -> NetKAT_Types.policy
-end
-
 module RunTime : sig 
   (* intermediate form *)
   type i 
