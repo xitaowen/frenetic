@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 0cdb8173c80254122d1995ace2271a53)
+# DO NOT EDIT (digest: fe20d104588f7ddf18b52b92577d7cde)
 Util
 Stream
 Types
@@ -7,6 +7,7 @@ Lexer
 Parser
 Semantics
 Pretty
+TemplateSyntax
 LocalCompiler
 Dehop
 NetKAT_Automaton
