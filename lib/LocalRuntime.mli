@@ -18,3 +18,10 @@ module type S = sig
 
   val to_table : sw -> impl -> flowTable
 end
+
+module MakeSDN
+  (Headers : REALIZABLE_HEADERS with type r_header = SDN_Headers.header
+                                 and type value = SDN_Headers.value)
+  (Syntax : Semantics.S with type header = Headers.header
+                         and type header_val = Headers.value
+                         and type payload = Headers.payload) : S
