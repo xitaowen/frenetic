@@ -56,20 +56,27 @@ module MakeSDN
   let decompile (p:impl) : policy =
     Local.to_netkat p
 
+  let bad_pair_to_string (k, v) =
+    (Headers.header_to_string k) ^ ": " ^ (Headers.value_to_string v)
+
+  let assert_realizable (bad, r) =
+    if List.exists (fun _ -> true) bad
+      then raise (Unrealizable (List.map bad_pair_to_string bad))
+      else r
+
   (*
    * Take a HeaderMap and turn it into a a Realizable HeaderMap, collecting the
    * failed header translations and associated values in the process
    *)
-  let convert (m : Headers.value Syntax.HeaderMap.t)
-    : (Syntax.HeaderMap.key * Headers.value) list * Headers.value RHMap.t =
+  let convert (m : Headers.value Syntax.HeaderMap.t) : Headers.value RHMap.t =
     let translate k v (bs, m) =
       match Headers.realize_header k with
         | None    -> ((k, v)::bs, m)
-        | Some k' -> (bs, RHMap.add k' v m)
-      in Syntax.HeaderMap.fold translate m ([], RHMap.empty)
+        | Some k' -> (bs, RHMap.add k' v m) in
+    assert_realizable (Syntax.HeaderMap.fold translate m ([], RHMap.empty))
 
   let to_action (a:Action.t) : SDN_Types.seq =
-    let (bad, a') = convert a in
+    let a' = convert a in
     if not (RHMap.mem (SDN_Headers.Header SDN_Types.InPort) a') then
       []
     else
@@ -85,14 +92,8 @@ module MakeSDN
     let f a par = (to_action a)::par in
     Action.Set.fold f s []
 
-  let bad_pair_to_string (k, v) =
-    (Headers.header_to_string k) ^ ": " ^ (Headers.value_to_string v)
-
   let to_pattern (sw : sw) (x:Pattern.t) : SDN_Types.pattern option =
-    let (bad, x') = convert x in
-    if List.exists (fun _ -> true) bad
-      then raise (Unrealizable (List.map bad_pair_to_string bad))
-      else ();
+    let x' = convert x in
     let f (h : NetKAT_Types.header) (v : NetKAT_Types.header_val) (pat : SDN_Types.pattern) =
       match h with
         | SDN_Headers.Switch -> pat (* already tested for this *)
