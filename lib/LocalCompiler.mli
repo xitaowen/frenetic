@@ -51,11 +51,3 @@ module Make
   with type policy = Syntax.policy
    and type pred = Syntax.pred
    and type header_val_map = Syntax.header_val_map
-
-module RunTime : sig 
-  (* intermediate form *)
-  type i 
-  val compile : NetKAT_Types.policy -> i
-  val decompile : i -> NetKAT_Types.policy
-  val to_table : SDN_Types.fieldVal -> i -> SDN_Types.flowTable 
-end

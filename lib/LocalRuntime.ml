@@ -26,7 +26,14 @@ module MakeSDN
                                  and type value = SDN_Headers.value)
   (Syntax : Semantics.S with type header = Headers.header
                          and type header_val = Headers.value
-                         and type payload = Headers.payload) : S = struct
+                         and type payload = Headers.payload) : S
+    with type policy = Syntax.policy
+     and type flowTable = SDN_Types.flowTable
+     and type sw = SDN_Types.switchId = struct
+
+  type policy = Syntax.policy
+  type flowTable = SDN_Types.flowTable
+  type sw = SDN_Types.switchId
 
   module Compiler = LocalCompiler.Make (Headers) (Syntax)
 
@@ -35,15 +42,13 @@ module MakeSDN
   module Pattern = Compiler.Pattern
   module Atom = Compiler.Atom
 
+  type impl = Local.t
+
   module RHMap = Map.Make(struct
     type t = SDN_Headers.header
     let compare = SDN_Headers.compare_header
   end)
 
-  type policy = Syntax.policy
-  type impl = Local.t
-  type flowTable = SDN_Types.flowTable
-  type sw = SDN_Types.switchId
 
   let compile (pol:policy) : impl =
     Local.of_policy pol
@@ -127,3 +132,10 @@ module MakeSDN
     List.rev (loop p [] Pattern.Set.empty)
 
 end
+
+module SDNRuntime = MakeSDN (struct
+  include SDN_Headers
+  type r_header = SDN_Headers.header
+
+  let realize_header h = Some h
+end) (NetKAT_Types)
