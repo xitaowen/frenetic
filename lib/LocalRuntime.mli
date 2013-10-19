@@ -14,8 +14,6 @@ module type S = sig
   type sw
 
   val compile : policy -> impl
-  val decompile : impl -> policy
-
   val to_table : sw -> impl -> flowTable
 end
 

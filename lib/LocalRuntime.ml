@@ -14,8 +14,6 @@ module type S = sig
   type sw
 
   val compile : policy -> impl
-  val decompile : impl -> policy
-
   val to_table : sw -> impl -> flowTable
 end
 
@@ -49,12 +47,6 @@ module MakeSDN
     let compare = SDN_Headers.compare_header
   end)
 
-
-  let compile (pol:policy) : impl =
-    Local.of_policy pol
-
-  let decompile (p:impl) : policy =
-    Local.to_netkat p
 
   let bad_pair_to_string (k, v) =
     (Headers.header_to_string k) ^ ": " ^ (Headers.value_to_string v)
@@ -111,6 +103,9 @@ module MakeSDN
     SDN_Types.idle_timeout = SDN_Types.Permanent;
     SDN_Types.hard_timeout = SDN_Types.Permanent
   }
+
+  let compile (pol:policy) : impl =
+    Local.of_policy pol
 
   (* Prunes out rules that apply to other switches. *)
   let to_table (sw:sw) (p:impl) : flowTable =
