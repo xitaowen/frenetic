@@ -29,10 +29,6 @@ module MakeSDN
      and type flowTable = SDN_Types.flowTable
      and type sw = SDN_Types.switchId = struct
 
-  type policy = Syntax.policy
-  type flowTable = SDN_Types.flowTable
-  type sw = SDN_Types.switchId
-
   module Compiler = LocalCompiler.Make (Headers) (Syntax)
 
   module Local = Compiler.Local
@@ -40,35 +36,41 @@ module MakeSDN
   module Pattern = Compiler.Pattern
   module Atom = Compiler.Atom
 
-  type impl = Local.t
+  type policy = Syntax.policy
+  type flowTable = SDN_Types.flowTable
+  type sw = SDN_Types.switchId
 
+  module SwitchMap = Map.Make(struct
+    type t = sw
+    let compare = Pervasives.compare
+  end)
+
+  type impl = flowTable * flowTable SwitchMap.t
+
+  module VSet = Set.Make(struct
+    type t = Headers.value
+    let compare = Pervasives.compare
+  end)
+
+  module VHMap = Syntax.HeaderMap
   module RHMap = Map.Make(struct
     type t = SDN_Headers.header
     let compare = SDN_Headers.compare_header
   end)
 
-
   let bad_pair_to_string (k, v) =
     (Headers.header_to_string k) ^ ": " ^ (Headers.value_to_string v)
-
-  let assert_realizable (bad, r) =
-    if List.exists (fun _ -> true) bad
-      then raise (Unrealizable (List.map bad_pair_to_string bad))
-      else r
 
   (*
    * Take a HeaderMap and turn it into a a Realizable HeaderMap, collecting the
    * failed header translations and associated values in the process
    *)
-  let convert (m : Headers.value Syntax.HeaderMap.t) : Headers.value RHMap.t =
-    let translate k v (bs, m) =
-      match Headers.realize_header k with
-        | None    -> ((k, v)::bs, m)
-        | Some k' -> (bs, RHMap.add k' v m) in
-    assert_realizable (Syntax.HeaderMap.fold translate m ([], RHMap.empty))
+  let convert hmap vmap m : Headers.value RHMap.t =
+    let translate k v m = RHMap.add (hmap k) (vmap k v) m in
+    Syntax.HeaderMap.fold translate m RHMap.empty
 
-  let to_action (a:Action.t) : SDN_Types.seq =
-    let a' = convert a in
+  let to_action hmap vmap (a:Action.t) : SDN_Types.seq =
+    let a' = convert hmap vmap a in
     if not (RHMap.mem (SDN_Headers.Header SDN_Types.InPort) a') then
       []
     else
@@ -80,21 +82,19 @@ module MakeSDN
           | SDN_Headers.Header h' ->  (SDN_Types.SetField (h', v)) :: act in
       RHMap.fold mk_mod mods [SDN_Types.OutputPort port]
 
-  let set_to_action (s:Action.Set.t) : SDN_Types.par =
-    let f a par = (to_action a)::par in
+  let set_to_action hmap vmap (s:Action.Set.t) : SDN_Types.par =
+    let f a par = (to_action hmap vmap a)::par in
     Action.Set.fold f s []
 
-  let to_pattern (sw : sw) (x:Pattern.t) : SDN_Types.pattern option =
-    let x' = convert x in
+  let to_pattern x : (sw option) * SDN_Types.pattern =
     let f (h : NetKAT_Types.header) (v : NetKAT_Types.header_val) (pat : SDN_Types.pattern) =
       match h with
         | SDN_Headers.Switch -> pat (* already tested for this *)
         | SDN_Headers.Header h' -> SDN_Types.FieldMap.add h' v pat in
-    if RHMap.mem SDN_Headers.Switch x' &&
-       RHMap.find SDN_Headers.Switch x' <> sw then
-      None
-    else
-      Some (RHMap.fold f x' SDN_Types.FieldMap.empty)
+    let sw = if RHMap.mem SDN_Headers.Switch x
+                then Some (RHMap.find SDN_Headers.Switch x)
+                else None in
+    (sw, RHMap.fold f x SDN_Types.FieldMap.empty)
 
   let simpl_flow (p : SDN_Types.pattern) (a : SDN_Types.group) : SDN_Types.flow = {
     SDN_Types.pattern = p;
@@ -104,16 +104,54 @@ module MakeSDN
     SDN_Types.hard_timeout = SDN_Types.Permanent
   }
 
-  let compile (pol:policy) : impl =
-    Local.of_policy pol
+  let header_usage (p:Local.t) : (VSet.t VHMap.t) * (VSet.t RHMap.t) =
+    let update find add k v s =
+      try add k (VSet.union (find k s) v) s with Not_found -> add k v s in
 
-  (* Prunes out rules that apply to other switches. *)
-  let to_table (sw:sw) (p:impl) : flowTable =
-    let add_flow x s l =
-      match to_pattern sw x with
-        | None -> l
-        | Some pat -> simpl_flow pat [set_to_action s] :: l in
-    let rec loop (p:impl) acc cover =
+    let pattern_usage (p:Pattern.t) =
+      let f h v (vmap, rmap) =
+        match Headers.realize_header h with
+          | None    -> (update VHMap.find VHMap.add h (VSet.singleton v) vmap, rmap)
+          | Some h' -> (vmap, update RHMap.find RHMap.add h' (VSet.singleton v) rmap) in
+      Syntax.HeaderMap.fold f p in
+
+    let atom_usage (pat : Atom.t) _ ms =
+      let (negs, pos) = pat in
+      let ms' = pattern_usage pos ms in
+      Pattern.Set.fold (fun p acc -> pattern_usage p acc) negs ms' in
+
+    Atom.Map.fold atom_usage p (VHMap.empty, RHMap.empty)
+
+  let devirtualize (maps : (VSet.t VHMap.t) * (VSet.t RHMap.t)) :
+      (Headers.header -> Headers.r_header) * (Headers.header -> Headers.value -> Headers.value) =
+    let (vmap, rmap) = maps in
+    if not (VHMap.is_empty vmap)
+      then raise (Unrealizable []); (* TODO(seliopou): Provide useful list *)
+    let f h =
+      match Headers.realize_header h with
+       | Some h' -> h'
+       | None -> raise (Unrealizable []) in (* TODO(seliopou): Provide useful list *)
+    let g h v = v in
+      (f, g)
+
+  let realize
+      (hmap : Headers.header -> Headers.r_header)
+      (vmap : Headers.header -> Headers.value -> Headers.value)
+      (p : Local.t) : impl =
+
+    let update_switch sw v switches =
+      try SwitchMap.add sw (v :: (SwitchMap.find sw switches)) switches
+        with Not_found -> SwitchMap.add sw [v] switches in
+   
+    let add_flow x s (single, switches) =
+      let x' = convert hmap vmap x in
+      let (sw, pat) = to_pattern x' in
+      let flow = simpl_flow pat [set_to_action hmap vmap s] in
+      match sw with
+        | None -> (flow :: single, SwitchMap.map (fun l -> flow :: l) switches)
+        | Some sw' -> (single, update_switch sw' flow switches) in
+
+    let rec loop (p:Local.t) acc cover : impl =
       if Atom.Map.is_empty p then
         acc
       else
@@ -125,8 +163,18 @@ module MakeSDN
         let acc'' = add_flow x s acc' in
         let cover' = Pattern.Set.add x (Pattern.Set.union xs cover) in
         loop p' acc'' cover' in
-    List.rev (loop p [] Pattern.Set.empty)
+    let (single, switches) = loop p ([], SwitchMap.empty) Pattern.Set.empty in
+      (List.rev single, SwitchMap.map List.rev switches)
 
+  let compile (pol:policy) : impl =
+    let local = Local.of_policy pol in
+    let (hmap, vmap) = devirtualize (header_usage local) in
+    realize hmap vmap local
+
+  let to_table (sw:sw) ((f, m):impl) : flowTable =
+    if SwitchMap.mem sw m
+      then SwitchMap.find sw m
+      else f
 end
 
 module SDNRuntime = MakeSDN (struct
