@@ -115,10 +115,11 @@ module MakeSDN
           | Some h' -> (vmap, update RHMap.find RHMap.add h' (VSet.singleton v) rmap) in
       Syntax.HeaderMap.fold f p in
 
-    let atom_usage (pat : Atom.t) _ ms =
+    let atom_usage (pat : Atom.t) (acts : Action.Set.t) ms =
       let (negs, pos) = pat in
       let ms' = pattern_usage pos ms in
-      Pattern.Set.fold (fun p acc -> pattern_usage p acc) negs ms' in
+      let ms'' = Action.Set.fold (fun a acc -> pattern_usage a acc) acts ms' in
+      Pattern.Set.fold (fun p acc -> pattern_usage p acc) negs ms'' in
 
     Atom.Map.fold atom_usage p (VHMap.empty, RHMap.empty)
 
