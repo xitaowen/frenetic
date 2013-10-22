@@ -15,14 +15,14 @@ type exp =
   | Par of pos * exp * exp
   | Seq of pos * exp * exp
   | Mod of pos * exp * exp
-  | Filter of exp
-  | True
-  | False
-  | Test of exp * exp
-  | And of exp * exp
-  | Or of exp * exp
-  | Neg of exp
-  | Header of header
-  | HeaderVal of header_val
+  | Filter of pos * exp
+  | True of pos 
+  | False of pos
+  | Test of pos * exp * exp
+  | And of pos * exp * exp
+  | Or of pos * exp * exp
+  | Neg of pos * exp
+  | Header of pos * header
+  | HeaderVal of pos * header_val
 
 val eval : exp -> NetKAT_Types.policy
