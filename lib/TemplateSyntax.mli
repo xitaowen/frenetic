@@ -1,3 +1,12 @@
+type width = int
+
+type typ =
+  | TPred
+  | THdr of width
+  | TInt of width
+  | TPol
+  | TFun of typ * typ
+
 type pos = Lexing.position
 
 type id = string
@@ -24,5 +33,6 @@ type exp =
   | Neg of pos * exp
   | Header of pos * header
   | HeaderVal of pos * header_val
+  | TypeIs of pos * exp * typ
 
 val eval : exp -> NetKAT_Types.policy

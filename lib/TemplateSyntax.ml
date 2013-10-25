@@ -10,7 +10,14 @@ type header_val = NKT.header_val
 type policy     = NKT.policy
 type pred       = NKT.pred
 
+type width = int
 
+type typ =
+  | TPred
+  | THdr of width
+  | TInt of width
+  | TPol
+  | TFun of typ * typ
 
 type exp =
   | Id        of pos * id
@@ -30,7 +37,7 @@ type exp =
   | Neg       of pos * exp
   | Header    of pos * header
   | HeaderVal of pos * header_val
-
+  | TypeIs    of pos * exp * typ
 
 module V :sig 
   type env 
@@ -152,6 +159,7 @@ let rec eval_helper (env : env) (e : exp) : V.value =
     | Header (_, h) -> V.Header h
 
     | HeaderVal (_, hv) -> V.HeaderVal hv
+    | TypeIs (_, e, _) -> eval_helper env e
 
 
 
