@@ -44,11 +44,14 @@ module V :sig
 
   val env_add : id -> value -> env -> env
 
-  val env_lookup : id -> env -> value option
+  val env_lookup : id -> env -> value
 
   val empty_env : env
 
 end = struct
+
+  module Env = Map.Make (String)
+
   type value = 
     | Header    of header
     | HeaderVal of header_val
@@ -56,30 +59,20 @@ end = struct
     | Closure   of id list * exp * env
     | Predicate of pred
 
-  (* TODO : Use map *)
-  and env = (id * value) list
+  and env = value Env.t
 
-
-  let env_add (x : id) (v : value) (env : env) : env =
-    (x,v)::env
-
-  let env_lookup (x : id) (env : env) : value option =
-    try
-      let f (x',v' : id * value) : bool = x = x' in
-      let (x', v') = List.find f env in Some v'
-    with Not_found -> None
-
-
-  let empty_env = []
+  let env_add    = Env.add
+  let env_lookup = Env.find
+  let empty_env  = Env.empty
 
 end
 
 
 type env = V.env
 
-let env_add = V.env_add
+let env_add    = V.env_add
 let env_lookup = V.env_lookup
-let empty_env = V.empty_env
+let empty_env  = V.empty_env
 
 
 exception Eval_error of string
@@ -92,11 +85,8 @@ let rec eval_helper (env : env) (e : exp) : V.value =
 
   match e with
 
-    | Id (p, x) -> 
-       (match env_lookup x env with
-          | Some v -> v
-          | None -> raise 
-                      (Eval_error ("Id : " ^ x ^ " not found in current environment")))
+    | Id (p, x) -> (try env_lookup x env 
+                    with Not_found -> raise (Eval_error ("Id : " ^ x ^ " not found in current environment")))
 
     | Let (p, x, with_e, in_e) -> 
         let env' = env_add x (eval_helper env with_e) env in eval_helper env' in_e
