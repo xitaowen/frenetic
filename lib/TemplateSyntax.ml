@@ -17,7 +17,7 @@ type typ =
   | THdr of width
   | TInt of width
   | TPol
-  | TFun of typ * typ
+  | TFun of typ list * typ
 
 type exp =
   | Id        of pos * id
@@ -39,7 +39,7 @@ type exp =
   | HeaderVal of pos * header_val
   | TypeIs    of pos * exp * typ
 
-module V :sig 
+module V : sig 
   type env 
 
   type value =
@@ -59,6 +59,7 @@ end = struct
 
   module Env = Map.Make (String)
 
+(* TODO : Remove redundancy *)
   type value = 
     | Header    of header
     | HeaderVal of header_val
@@ -86,6 +87,7 @@ exception Eval_error of string
 
 
 (* TODO : Include pos in errors *)
+(* TODO : See if any type checking needs to included in eval_helper, for now it seems redundant *)
 
 
 let rec eval_helper (env : env) (e : exp) : V.value = 
@@ -159,6 +161,7 @@ let rec eval_helper (env : env) (e : exp) : V.value =
     | Header (_, h) -> V.Header h
 
     | HeaderVal (_, hv) -> V.HeaderVal hv
+
     | TypeIs (_, e, _) -> eval_helper env e
 
 

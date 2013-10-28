@@ -1,3 +1,5 @@
+exception Eval_error of string
+
 type width = int
 
 type typ =
@@ -5,7 +7,7 @@ type typ =
   | THdr of width
   | TInt of width
   | TPol
-  | TFun of typ * typ
+  | TFun of typ list * typ
 
 type pos = Lexing.position
 

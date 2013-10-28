@@ -1,13 +1,14 @@
 # OASIS_START
-# DO NOT EDIT (digest: fe20d104588f7ddf18b52b92577d7cde)
+# DO NOT EDIT (digest: b0850fbe94c55771de3e71ba526e2542)
 Util
 Stream
+TemplateSyntax
+TemplateTypeChecker
 Types
 Lexer
 Parser
 Semantics
 Pretty
-TemplateSyntax
 LocalCompiler
 Dehop
 NetKAT_Automaton
