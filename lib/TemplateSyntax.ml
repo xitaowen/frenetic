@@ -62,7 +62,7 @@ end = struct
 
   module Env = Map.Make (String)
 
-(* TODO : Remove redundancy *)
+  (* XXX : Redundant *)
   type value = 
     | Header    of header
     | HeaderVal of header_val
@@ -71,6 +71,8 @@ end = struct
     | Predicate of pred
 
   and env = value Env.t
+
+  (* type env = value Env.t *)
 
   let env_add    = Env.add
   let env_lookup = Env.find
