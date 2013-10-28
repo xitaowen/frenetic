@@ -3,12 +3,11 @@ module TS = TemplateSyntax
 exception Type_error of string
 
 
-
-
-(* TODO : Make a functor module out of environment, that could map id to value or id to type *)
 module Env = Map.Make (String)
 
 type env = TS.typ Env.t
+
+module NKT = NetKAT_Types
 
 
 let env_add    = Env.add
@@ -16,6 +15,12 @@ let env_lookup = Env.find
 let empty_env  = Env.empty
 
 (* TODO : use pos to indicate appropriate error *)
+
+
+
+let rec get_msb_loc (x : Int64.t) : int =
+  if x <= Int64.zero then 0
+  else 1 + get_msb_loc (Int64.shift_right_logical x 1)
 
 let rec synth (env : env) (e : TS.exp) : TS.typ =
   match e with 
@@ -72,9 +77,6 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
         then TS.TPol
         else raise (Type_error "Type error in Par/Seq") 
 
-    | TS.Mod  (p, e1, e2) ->
-        failwith "Take width of hdr and hdrval into account"
-
     | TS.Filter  (p, e) ->
         if check env e TS.TPred
         then TS.TPol
@@ -84,8 +86,17 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
     | TS.False  (p) ->
         TS.TPred
 
+    | TS.Mod  (p, e1, e2)
     | TS.Test  (p, e1, e2) ->
-        failwith "Take width of hdr and hdrval into account"
+        let t_e1 = synth env e1 in
+        let t_e2 = synth env e2 in
+        (match t_e1, t_e2 with
+           | TS.THdr w1, TS.TInt w2 -> if w1 >= w2
+                                       then TS.TPred
+                                       else raise (Type_error "Value is greater than what header can accomodate")
+
+           | _ -> raise (Type_error "Mismatched type"))
+
 
     | TS.And  (p, e1, e2)
     | TS.Or  (p, e1, e2) ->
@@ -100,10 +111,33 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
         else raise (Type_error "Neg expects to work on predicates")
 
     | TS.Header  (p, hdr) ->
-        failwith "Take width of hdr and hdrval into account"
+        let module SDNH = SDN_Headers in
+        (match hdr with
+           | SDNH.Header (h) -> 
+               let module SDNT = SDN_Types in
+               (match h with
+                 | SDNT.IPProto
+                 | SDNT.EthType -> TS.THdr (8)
 
+                 | SDNT.EthSrc
+                 | SDNT.EthDst -> TS.THdr (48)
+
+                 | SDNT.Vlan
+                 | SDNT.VlanPcp -> TS.THdr (16)
+
+                 | SDNT.IP4Src
+                 | SDNT.IP4Dst -> TS.THdr (32)
+
+                 | SDNT.InPort
+                 | SDNT.TCPSrcPort
+                 | SDNT.TCPDstPort -> TS.THdr (16))
+
+           | SDNH.Switch  -> TS.THdr (64))
+        
+        
     | TS.HeaderVal  (p, hdr_val) ->
-        failwith "Take width of hdr and hdrval into account"
+        TS.TInt (get_msb_loc (VInt.get_int64 hdr_val))
+        
 
     | TS.TypeIs  (p, e, t) ->
         if check env e t
@@ -157,8 +191,6 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
       check env e1 TS.TPol &&
       check env e2 TS.TPol
 
-  | TS.Mod (p, e1, e2) ->
-        failwith "Take width of hdr and hdrval into account"
 
   | TS.Filter (p, e) ->
       check env e TS.TPred
@@ -169,8 +201,9 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
         | TS.TPred -> true
         | _ -> false)
 
+  | TS.Mod (p, e1, e2)
   | TS.Test (p, e1, e2) ->
-        failwith "Take width of hdr and hdrval into account"
+      TS.TPred = synth env e
 
   | TS.And (p, e1, e2)
   | TS.Or  (p, e1, e2) ->
@@ -180,11 +213,15 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
   | TS.Neg (p, e) ->
       check env e TS.TPred
 
-  | TS.Header (p, e) ->
-        failwith "Take width of hdr and hdrval into account"
+  | TS.Header (p, h) ->
+      (match synth env e, t with
+         | TS.THdr w1, TS.THdr w2 -> w1 = w2
+         | _ -> false)
 
-  | TS.HeaderVal (p, e) ->
-        failwith "Take width of hdr and hdrval into account"
+  | TS.HeaderVal (p, hv) ->
+      (match synth env e, t with
+         | TS.TInt w1, TS.TInt w2 -> w1 = w2
+         | _ -> false)
 
   | TS.TypeIs (p, e, t) ->
       check env e t

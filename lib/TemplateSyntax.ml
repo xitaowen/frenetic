@@ -10,6 +10,7 @@ type header_val = NKT.header_val
 type policy     = NKT.policy
 type pred       = NKT.pred
 
+
 type width = int
 
 type typ =
@@ -18,6 +19,8 @@ type typ =
   | TInt of width
   | TPol
   | TFun of typ list * typ
+
+
 
 type exp =
   | Id        of pos * id
@@ -87,7 +90,7 @@ exception Eval_error of string
 
 
 (* TODO : Include pos in errors *)
-(* TODO : See if any type checking needs to included in eval_helper, for now it seems redundant *)
+(* TODO : Many of the type checks in eval helper can be removed once we integrate type checking as a separate module *)
 
 
 let rec eval_helper (env : env) (e : exp) : V.value = 

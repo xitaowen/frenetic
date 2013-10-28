@@ -1,5 +1,14 @@
 exception Eval_error of string
 
+type pos = Lexing.position
+
+type id = string
+
+type header = NetKAT_Types.header
+
+type header_val = NetKAT_Types.header_val
+
+
 type width = int
 
 type typ =
@@ -9,13 +18,6 @@ type typ =
   | TPol
   | TFun of typ list * typ
 
-type pos = Lexing.position
-
-type id = string
-
-type header = NetKAT_Types.header
-
-type header_val = NetKAT_Types.header_val
 
 type exp =
   | Id of pos * id
