@@ -45,8 +45,8 @@ Library netcore
     Dehop,
     NetKAT_Automaton,
     Controller,
-    PolicyGenerator
-
+    PolicyGenerator,
+    Template_Parser
   Modules:
     Util,
     Stream,
