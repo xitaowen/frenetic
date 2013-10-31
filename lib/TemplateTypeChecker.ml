@@ -184,34 +184,34 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
   | TS.If (p, e_cond, e_true, e_false) ->
       check env e_cond  TS.TPred &&
       check env e_true  TS.TPol  &&
-      check env e_false TS.TPol
+      check env e_false TS.TPol  &&
+      t = TS.TPol
 
   | TS.Par (p, e1, e2)
   | TS.Seq (p, e1, e2) ->
       check env e1 TS.TPol &&
-      check env e2 TS.TPol
+      check env e2 TS.TPol &&
+      t = TS.TPol
 
 
   | TS.Filter (p, e) ->
-      check env e TS.TPred
+      check env e TS.TPred && t = TS.TPred
 
   | TS.True (p)
-  | TS.False (p) ->
-      (match t with
-        | TS.TPred -> true
-        | _ -> false)
+  | TS.False (p) -> t = TS.TPred
 
   | TS.Mod (p, e1, e2)
   | TS.Test (p, e1, e2) ->
-      TS.TPred = synth env e
+      TS.TPred = synth env e && t = TS.TPred
 
   | TS.And (p, e1, e2)
   | TS.Or  (p, e1, e2) ->
       check env e1 TS.TPred &&
-      check env e2 TS.TPred
+      check env e2 TS.TPred &&
+      t = TS.TPred
 
   | TS.Neg (p, e) ->
-      check env e TS.TPred
+      check env e TS.TPred && t = TS.TPred
 
   | TS.Header (p, h) ->
       (match synth env e, t with

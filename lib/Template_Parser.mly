@@ -17,6 +17,9 @@
 
 %token LPAREN
 %token RPAREN
+%token COLON
+%token TPOL
+%token TPRED
 %token TRUE
 %token FALSE
 %token NONE
@@ -72,8 +75,30 @@ ident_list :
   | IDENT                  { [$1] }
   | IDENT COMMA ident_list { $1 :: $3 }
 
+
+atom_typ :
+  | TPRED             { TPred }
+  | TPOL              { TPol }
+  | LPAREN typ RPAREN { $2 }
+
+
+
+typ :
+  | atom_typ { $1 }
+  | atom_typ RARROW atom_typ { TFun ([$1], $3) }
+
+  /* | THEADER { THdr (some width) }    */
+  /* | THEADERVAL { TInt (some width) } */
+
+
+
+arg_type_list :
+  |                                     { [] }
+  | IDENT COLON typ                     { [($1, $3)] }
+  | IDENT COLON typ COMMA arg_type_list { ($1, $3) :: $5 }
+
 header :
-  | SWITCH       { SDN_Headers.Switch            }
+  | SWITCH       { SDN_Headers.Switch                      }
   | PORT         { SDN_Headers.Header SDN_Types.InPort     }
   | TCPSRCPORT   { SDN_Headers.Header SDN_Types.TCPSrcPort }
   | TCPDSTPORT   { SDN_Headers.Header SDN_Types.TCPDstPort }
@@ -150,10 +175,16 @@ exp_list :
   | exp COMMA exp_list { $1 :: $3 }
 
 exp :
-  | par_exp                   { $1 }
+  | par_exp                      { $1 }
   | LET IDENT EQUALS exp IN exp  { Let (symbol_start_pos (), $2, $4, $6) }
-  | IF exp THEN exp ELSE exp  { If (symbol_start_pos (), $2, $4, $6) }
-  | FUN ident_list RARROW exp { Fun (symbol_start_pos (), $2, $4) }
+  | IF exp THEN exp ELSE exp     { If (symbol_start_pos (), $2, $4, $6) }
+  | FUN ident_list RARROW exp    { Fun (symbol_start_pos (), $2, $4) }
+
+  | FUN arg_type_list COLON typ EQUALS exp {
+                                             let (id_list, id_type_list) = List.split $2 in
+                                             TypeIs (symbol_start_pos (), Fun (symbol_start_pos (), id_list, $6), TFun (id_type_list, $4))
+                                           }
+                                           
 
 program : 
   | exp EOF  { $1 }
