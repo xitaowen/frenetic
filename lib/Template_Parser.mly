@@ -84,6 +84,7 @@ atom_typ :
 
 
 
+/* TODO : What are the types in our language */
 typ :
   | atom_typ { $1 }
   | atom_typ RARROW atom_typ { TFun ([$1], $3) }

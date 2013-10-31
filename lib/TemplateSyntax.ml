@@ -62,7 +62,7 @@ end = struct
 
   module Env = Map.Make (String)
 
-  (* XXX : Redundant *)
+  (* TODO : Redundant, can it be removed *)
   type value = 
     | Header    of header
     | HeaderVal of header_val
