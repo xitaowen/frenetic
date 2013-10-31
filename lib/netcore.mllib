@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 0b9cff0d754e4b37ed55b496dd8fb122)
+# DO NOT EDIT (digest: 2ae7bd44d90e3cb7fd9f48dd8d613653)
 Util
 Stream
 TemplateSyntax
@@ -14,5 +14,6 @@ Dehop
 NetKAT_Automaton
 Controller
 PolicyGenerator
+Template_Lexer
 Template_Parser
 # OASIS_STOP

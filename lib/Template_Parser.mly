@@ -63,6 +63,7 @@
 
 
 
+
 %start program
 
 
@@ -78,7 +79,7 @@ ident_list :
 
 atom_typ :
   | TPRED             { TPred }
-  | TPOL              { TPol }
+  | TPOL              { TPol  }
   | LPAREN typ RPAREN { $2 }
 
 
@@ -131,6 +132,8 @@ header_val_or_id :
   | IDENT      { Id (symbol_start_pos (), $1) }
 
 atom_pred :
+  | TRUE                            { True (symbol_start_pos ()) }
+  | FALSE                           { False (symbol_start_pos ()) }
   | LPAREN pred RPAREN                   { $2 }
   | IDENT                                { Id (symbol_start_pos (), $1) }
   | header_or_id EQUALS header_val_or_id { Test (symbol_start_pos (), $1, $3) }
@@ -149,8 +152,6 @@ pred :
 
 atom_exp :
   | LPAREN exp RPAREN               { $2 }
-  | TRUE                            { True (symbol_start_pos ()) }
-  | FALSE                           { False (symbol_start_pos ()) }
   | header                          { Header (symbol_start_pos (), $1) }
   | header_val                      { HeaderVal (symbol_start_pos (), VInt.Int64 $1) }
   | IDENT                           { Id (symbol_start_pos (), $1) }
@@ -182,7 +183,9 @@ exp :
 
   | FUN arg_type_list COLON typ EQUALS exp {
                                              let (id_list, id_type_list) = List.split $2 in
-                                             TypeIs (symbol_start_pos (), Fun (symbol_start_pos (), id_list, $6), TFun (id_type_list, $4))
+                                             TypeIs (symbol_start_pos (), 
+                                                     Fun (symbol_start_pos (), id_list, $6),
+                                                     TFun (id_type_list, $4))
                                            }
                                            
 

@@ -46,6 +46,7 @@ Library netcore
     NetKAT_Automaton,
     Controller,
     PolicyGenerator,
+    Template_Lexer,
     Template_Parser
   Modules:
     Util,
