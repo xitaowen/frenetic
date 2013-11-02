@@ -19,6 +19,13 @@ let run args = match args with
     Lwt_main.run (Controller.start 6633 (Stream.constant exp))
   | _ -> help [ "run" ]
 
+let run_template args = match args with
+  | [ filename ] ->
+    let cin = open_in filename in
+    let exp = TemplateSyntax.eval (Template_Parser.program Template_Lexer.token (Lexing.from_channel cin)) in
+    Lwt_main.run (Controller.start 6633 (NetCore_Stream.constant exp))
+  | _ -> help [ "run" ]
+
 let dump args = match args with 
   | [ filename ] ->
     let cin = open_in filename in
@@ -32,4 +39,6 @@ let () =
   match Array.to_list Sys.argv with
     | (_ :: "run" :: args) ->  run args
     | (_ :: "dump" :: args) -> dump args
+    | (_ :: "runtemplate" :: args) ->  run_template args
+
     | _ -> help []
