@@ -179,7 +179,7 @@ exp_list :
 exp :
   | par_exp                      { $1 }
   | LET IDENT EQUALS exp IN exp  { Let (symbol_start_pos (), $2, $4, $6) }
-  | IF exp THEN exp ELSE exp     { If (symbol_start_pos (), $2, $4, $6) }
+  | IF pred THEN exp ELSE exp     { If (symbol_start_pos (), $2, $4, $6) }
   | FUN ident_list RARROW exp    { Fun (symbol_start_pos (), $2, $4) }
 
   | FUN arg_type_list COLON typ EQUALS exp {
