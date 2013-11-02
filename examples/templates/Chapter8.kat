@@ -1,0 +1,56 @@
+let switch1_pol = 
+  if ethDst = 00:00:00:00:00:03 || ethDst = 00:00:00:00:00:04
+  then port := 2
+  else
+  if ethDst = 00:00:00:00:00:01 || ethDst = 00:00:00:00:00:02
+  then port := 1
+  else filter false (* drop *)
+
+in
+
+let switch2_pol = 
+  if ethDst = 0:00:00:00:00:03 || ethDst = 00:00:00:00:00:04
+  then port := 3
+  else
+  if ethDst = 00:00:00:00:00:02
+  then port := 2
+  else
+  if ethDst = 00:00:00:00:00:01
+  then port := 1
+  else filter false (* drop *)
+
+in
+
+let switch3_pol = 
+  if ethDst = 0:00:00:00:00:01 || ethDst = 00:00:00:00:00:02
+  then port := 3
+  else
+  if ethDst = 00:00:00:00:00:04
+  then port := 2
+  else
+  if ethDst = 00:00:00:00:00:03
+  then port := 1
+  else filter false (* drop *)
+
+in
+
+let forwarding = 
+  if switch = 1 then switch1_pol
+  else if switch = 2 then switch2_pol
+  else switch3_pol
+
+in 
+
+let firewall = if (ethSrc = 00:00:00:00:00:02 && 
+                   ethDst = 00:00:00:00:00:01 &&
+                   tcpDstPort = 80) 
+                   ||
+                  (ethSrc = 00:00:00:00:00:01 &&
+                   ethDst = 00:00:00:00:00:02 &&
+                   tcpSrcPort = 80)
+               then filter false (* drop *)
+               else filter true  (* pass *)
+
+in
+
+firewall; forwarding
