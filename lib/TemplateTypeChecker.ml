@@ -23,7 +23,9 @@ let rec get_msb_loc (x : Int64.t) : int =
   else 1 + get_msb_loc (Int64.shift_right_logical x 1)
 
 let rec synth (env : env) (e : TS.exp) : TS.typ =
+
   match e with 
+
     | TS.Id   (p, x) -> 
       (try 
          env_lookup x env 
@@ -223,6 +225,6 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
          | TS.TInt w1, TS.TInt w2 -> w1 = w2
          | _ -> false)
 
-  | TS.TypeIs (p, e, t) ->
-      check env e t
+  | TS.TypeIs (p, e, t') ->
+      check env e t' && t = t' 
 
