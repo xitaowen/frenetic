@@ -42,6 +42,15 @@ type exp =
   | HeaderVal of pos * header_val
   | TypeIs    of pos * exp * typ
 
+
+
+let sprintf = Format.sprintf
+
+let string_of_pos pos = 
+  let open Lexing in
+  sprintf "%s, line %d, column %d" pos.pos_fname pos.pos_lnum
+    (pos.pos_cnum - pos.pos_bol)
+
 module V : sig 
   type env 
 
@@ -62,7 +71,7 @@ end = struct
 
   module Env = Map.Make (String)
 
-  (* TODO : Redundant, can it be removed *)
+  (* TODO : Redundant, can it be removed? *)
   type value = 
     | Header    of header
     | HeaderVal of header_val
@@ -92,7 +101,6 @@ exception Eval_error of string
 
 
 (* TODO : Include pos in errors *)
-(* TODO : Many of the type checks in eval helper can be removed once we integrate type checking as a separate module *)
 
 
 let rec eval_helper (env : env) (e : exp) : V.value = 
@@ -100,12 +108,14 @@ let rec eval_helper (env : env) (e : exp) : V.value =
   match e with
 
     | Id (p, x) -> (try env_lookup x env 
-                    with Not_found -> raise (Eval_error ("Id : " ^ x ^ " not found in current environment")))
+                    with Not_found -> raise 
+                                        (Eval_error 
+					  (sprintf "%s: Id : %s is undefined" (string_of_pos p) x )))
 
-    | Let (p, x, with_e, in_e) -> 
+    | Let (_, x, with_e, in_e) -> 
         let env' = env_add x (eval_helper env with_e) env in eval_helper env' in_e
 
-    | Fun (p, ids, body) -> V.Closure (ids, body, env)
+    | Fun (_, ids, body) -> V.Closure (ids, body, env)
 
     | App (p, f, args) ->
         (match eval_helper env f with
@@ -115,9 +125,13 @@ let rec eval_helper (env : env) (e : exp) : V.value =
                   let eval_with_env = eval_helper env in
                   let env'' = fold_right2 env_add ids (map eval_with_env args) env' in
                     eval_helper env'' body
-                with Invalid_argument _ -> raise (Eval_error "missing/extra arguments"))
+                with Invalid_argument _ -> raise 
+                                             (Eval_error 
+                                                (sprintf "%s: Mismatch in number of arguments" (string_of_pos p))))
 
-           | _ -> raise (Eval_error "Expected a function to apply"))
+           | _ -> raise 
+                    (Eval_error 
+                       (sprintf "%s: Expected a function" (string_of_pos p))))
         
     | If (p, pred, pol_true, pol_false) ->
         (match eval_helper env pred,
@@ -126,42 +140,69 @@ let rec eval_helper (env : env) (e : exp) : V.value =
           | V.Predicate pre, V.Policy pte, V.Policy pfe -> 
               V.Policy (NKT.Par (NKT.Seq (NKT.Filter pre, pte),
                                  NKT.Seq (NKT.Filter (NKT.Neg pre), pfe)))
-          | _ -> raise (Eval_error "mismatched types to if"))
+          | _ -> raise 
+                   (Eval_error 
+                      (sprintf "%s: Mismatched types to if" (string_of_pos p))))
 
 
-    | Par (p, e1, e2) -> (match eval_helper env e1, eval_helper env e2 with
-                            | V.Policy p1, V.Policy p2 -> V.Policy (NKT.Par (p1, p2))
-                            | _ -> raise (Eval_error "mismatched types to Par")) 
+    | Par (p, e1, e2) -> 
+        (match eval_helper env e1, eval_helper env e2 with
+           | V.Policy p1, V.Policy p2 -> V.Policy (NKT.Par (p1, p2))
+           | _ -> raise 
+                    (Eval_error 
+                       (sprintf "%s: \"+\" expects two policies" (string_of_pos p)))) 
 
-    | Seq (p, e1, e2) -> (match eval_helper env e1, eval_helper env e2 with
-                            | V.Policy p1, V.Policy p2 -> V.Policy (NKT.Seq (p1, p2))
-                            | _ -> raise (Eval_error "mismatched Types to Par"))
+    | Seq (p, e1, e2) -> 
+        (match eval_helper env e1, eval_helper env e2 with
+           | V.Policy p1, V.Policy p2 -> V.Policy (NKT.Seq (p1, p2))
+           | _ -> raise 
+                    (Eval_error 
+                      (sprintf "%s: \";\" expects two policies" (string_of_pos p))))
 
-    | Mod (p, e1, e2) -> (match eval_helper env e1, eval_helper env e2 with
-                            | V.Header h, V.HeaderVal hv -> V.Policy (NKT.Mod (h, hv))
-                            | _ -> raise (Eval_error "mismatched Types to Mod"))
+    | Mod (p, e1, e2) -> 
+       (match eval_helper env e1, eval_helper env e2 with
+          | V.Header h, V.HeaderVal hv -> V.Policy (NKT.Mod (h, hv))
+          | _ -> raise 
+                   (Eval_error 
+                     (sprintf "%s: Mismatched types to \":=\"" (string_of_pos p))))
 
-    | Filter (p, e') -> (match eval_helper env e' with
-                          | V.Predicate pr -> V.Policy (NKT.Filter pr)
-                          | _ -> raise (Eval_error "mismatched types to Filter"))
+    | Filter (p, e') -> 
+       (match eval_helper env e' with
+          | V.Predicate pr -> V.Policy (NKT.Filter pr)
+          | _ -> raise 
+                   (Eval_error 
+                     (sprintf "%s: Mismatched types to \"filter\"" (string_of_pos p))))
 
     | True _ -> V.Predicate NKT.True
     | False _ -> V.Predicate NKT.False
 
-    | Test (p, e1, e2) -> (match eval_helper env e1, eval_helper env e2 with
-                             | V.Header h, V.HeaderVal hv -> V.Predicate (NKT.Test (h, hv))
-                             | _ -> raise (Eval_error "mismatched Types to Test"))
+    | Test (p, e1, e2) ->
+        (match eval_helper env e1, eval_helper env e2 with
+          | V.Header h, V.HeaderVal hv -> V.Predicate (NKT.Test (h, hv))
+          | _ -> raise 
+                   (Eval_error 
+                      (sprintf "%s: Mismatched types to \"=\"" (string_of_pos p))))
 
-    | And (p, e1, e2) -> (match eval_helper env e1, eval_helper env e2 with
-                            | V.Predicate pr1, V.Predicate pr2 -> V.Predicate (NKT.And (pr1, pr2))
-                            | _ -> raise (Eval_error "mismatched Types to And"))
+    | And (p, e1, e2) -> 
+        (match eval_helper env e1, eval_helper env e2 with
+           | V.Predicate pr1, V.Predicate pr2 -> V.Predicate (NKT.And (pr1, pr2))
+           | _ -> raise 
+                    (Eval_error 
+                       (sprintf "%s: Mismatched types to \"&&\"" (string_of_pos p))))
 
-    | Or (p, e1, e2) -> (match eval_helper env e1, eval_helper env e2 with
-                            | V.Predicate pr1, V.Predicate pr2 -> V.Predicate (NKT.Or (pr1, pr2))
-                            | _ -> raise (Eval_error "mismatched Types to Or"))
-    | Neg (p, e') -> (match eval_helper env e' with
-                       | V.Predicate pr -> V.Predicate (NKT.Neg pr)
-                       | _ -> raise (Eval_error "mismatched Types to Neg"))
+    | Or (p, e1, e2) -> 
+        (match eval_helper env e1, eval_helper env e2 with
+           | V.Predicate pr1, V.Predicate pr2 -> V.Predicate (NKT.Or (pr1, pr2))
+           | _ -> raise 
+                    (Eval_error 
+                      (sprintf "%s: Mismatched types to \"||\"" (string_of_pos p))))
+
+    | Neg (p, e') -> 
+        (match eval_helper env e' with
+          | V.Predicate pr -> V.Predicate (NKT.Neg pr)
+          | _ -> raise 
+                   (Eval_error 
+                     (sprintf "%s: Mismatched types to \"!\"" (string_of_pos p))))
 
     | Header (_, h) -> V.Header h
 
