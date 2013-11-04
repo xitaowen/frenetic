@@ -228,3 +228,6 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
   | TS.TypeIs (p, e, t') ->
       check env e t' && t = t' 
 
+
+let type_check (e : TS.exp) (t : TS.typ) : bool =
+  check empty_env e t
