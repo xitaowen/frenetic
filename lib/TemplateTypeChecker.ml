@@ -1,21 +1,27 @@
-module TS = TemplateSyntax
-
 exception Type_error of string
 
+
+module TS = TemplateSyntax
 
 module Env = Map.Make (String)
 
 type env = TS.typ Env.t
 
-module NKT = NetKAT_Types
-
-
 let env_add    = Env.add
 let env_lookup = Env.find
 let empty_env  = Env.empty
 
-(* TODO : use pos to indicate appropriate error *)
 
+let sprintf = Format.sprintf
+
+let string_of_pos pos = 
+  let open Lexing in
+  sprintf "%s, line %d, column %d" pos.pos_fname pos.pos_lnum
+    (pos.pos_cnum - pos.pos_bol)
+
+
+
+module NKT = NetKAT_Types
 
 
 let rec get_msb_loc (x : Int64.t) : int =
@@ -29,15 +35,20 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
     | TS.Id   (p, x) -> 
       (try 
          env_lookup x env 
-       with Not_found -> raise (Type_error ("Unbound identifier" ^ x)))
+       with Not_found -> 
+              raise 
+                (Type_error
+                   (sprintf "%s: Unbound identifier %s" (string_of_pos p) x)))
 
-    | TS.Let  (p, x, with_e, in_e) -> 
+    | TS.Let  (_, x, with_e, in_e) -> 
         let with_e_t = synth env with_e in
         let env' = env_add x with_e_t env in
         synth env' in_e
 
     | TS.Fun  (p, param_list, body) -> 
-        raise (Type_error "Cannot synthesize type of function")
+        raise 
+          (Type_error 
+             (sprintf "%s: Cannot synthesize type of function" (string_of_pos p)))
 
     | TS.App  (p, f, arg_list) -> 
         (* 
@@ -58,11 +69,17 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
                  let res = fold_right2 f arg_list t_param_list true in
                  if res 
                  then t_body
-                 else raise (Type_error "Wrong type of argument applied to function")
-              with Invalid_argument _ -> raise (Type_error "Mismatch in lengths of list"))
+                 else raise 
+                        (Type_error 
+                           (sprintf "%s: Wrong type of argument applied to function" (string_of_pos p)))
+              with Invalid_argument _ -> raise 
+                                           (Type_error 
+                                              (sprintf "%s: Mismatched number of arguments/parameters to function" (string_of_pos p))))
 
               
-          | _ -> raise (Type_error "Expected a function"))
+          | _ -> raise
+                   (Type_error
+                     (sprintf "%s: Expected a function" (string_of_pos p))))
         
       
     | TS.If  (p, e_cond, e_true, e_false) ->
@@ -70,43 +87,59 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
            check env e_true  TS.TPol  && 
            check env e_false TS.TPol
         then TS.TPol
-        else raise (Type_error "Type error in if")
+        else raise
+               (Type_error
+                  (sprintf "%s: Type error in \"if\"" (string_of_pos p)))
 
     | TS.Par (p, e1, e2)
     | TS.Seq (p, e1, e2) ->
         if check env e1 TS.TPol &&
            check env e2 TS.TPol
         then TS.TPol
-        else raise (Type_error "Type error in Par/Seq") 
+        else raise
+              (Type_error
+                 (sprintf "%s: Type error in \"+\" or \";\"" (string_of_pos p)))
 
     | TS.Filter  (p, e) ->
         if check env e TS.TPred
         then TS.TPol
-        else raise (Type_error "Expected a predicate with Filter")
+        else raise
+               (Type_error
+                  (sprintf "%s: Expected a predicate with \"filter\"" (string_of_pos p)))
 
-    | TS.True  (p)
-    | TS.False  (p) ->
+    | TS.True  (_)
+    | TS.False  (_) ->
         TS.TPred
 
     | TS.Mod  (p, e1, e2) ->
         let t_e1 = synth env e1 in
         let t_e2 = synth env e2 in
         (match t_e1, t_e2 with
-           | TS.THdr w1, TS.TInt w2 -> if w1 >= w2
-                                       then TS.TPol
-                                       else raise (Type_error "Value is greater than what header can accomodate")
+           | TS.THdr w1, TS.TInt w2 ->
+               if w1 >= w2
+               then TS.TPol
+               else raise
+                      (Type_error
+                        (sprintf "%s: Value is greater than what header can accomodate" (string_of_pos p)))
 
-           | _ -> raise (Type_error "Mismatched type"))
+           | _ -> raise
+                    (Type_error
+                       (sprintf "%s: Mismatched type to \":=\"" (string_of_pos p))))
 
     | TS.Test  (p, e1, e2) ->
         let t_e1 = synth env e1 in
         let t_e2 = synth env e2 in
         (match t_e1, t_e2 with
-           | TS.THdr w1, TS.TInt w2 -> if w1 >= w2
-                                       then TS.TPred
-                                       else raise (Type_error "Value is greater than what header can accomodate")
+           | TS.THdr w1, TS.TInt w2 ->
+               if w1 >= w2
+               then TS.TPred
+               else raise
+                      (Type_error
+                        (sprintf "%s: Value is greater than header capacity" (string_of_pos p)))
 
-           | _ -> raise (Type_error "Mismatched type"))
+           | _ -> raise
+                    (Type_error
+                      (sprintf "%s: Mismatched type to \"=\"" (string_of_pos p))))
 
 
     | TS.And  (p, e1, e2)
@@ -114,14 +147,18 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
         if check env e1 TS.TPred &&
            check env e2 TS.TPred
         then TS.TPred
-        else raise (Type_error "And/Or expects to work on predicates")
+        else raise 
+          (Type_error
+             (sprintf "%s: \"&&\" and \"||\"  expects to work on predicates" (string_of_pos p)))
 
     | TS.Neg  (p, e) ->
         if check env e TS.TPred
         then TS.TPred
-        else raise (Type_error "Neg expects to work on predicates")
+        else raise
+               (Type_error
+                 (sprintf "%s: \"!\" expects to work on predicates" (string_of_pos p)))
 
-    | TS.Header  (p, hdr) ->
+    | TS.Header  (_, hdr) ->
         let module SDNH = SDN_Headers in
         (match hdr with
            | SDNH.Header (h) -> 
@@ -146,14 +183,16 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
            | SDNH.Switch  -> TS.THdr (64))
         
         
-    | TS.HeaderVal  (p, hdr_val) ->
+    | TS.HeaderVal  (_, hdr_val) ->
         TS.TInt (get_msb_loc (VInt.get_int64 hdr_val))
         
 
     | TS.TypeIs  (p, e, t) ->
         if check env e t
         then t
-        else raise (Type_error "Incorrect type annotation")
+        else raise
+               (Type_error
+                 (sprintf "%s: Incorrect type annotation" (string_of_pos p)))
 
 
 and 
@@ -165,9 +204,11 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
   | TS.Id (p, x) -> 
       (try
          t = env_lookup x env
-       with Not_found -> raise (Type_error ("Unbound Identifier")))
+       with Not_found -> raise
+                           (Type_error
+                             (sprintf "%s: Unbound Identifier %s" (string_of_pos p) x)))
 
-  | TS.Let (p, x, with_e, in_e) ->
+  | TS.Let (_, x, with_e, in_e) ->
       let env' = env_add x (synth env with_e) env
       in check env' in_e t
       
@@ -182,61 +223,63 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
                 let open List in 
                 let env' = fold_right2 env_add params t_params env in
                 check env' body t_body
-              with Invalid_argument _ -> raise (Type_error "mismatched number of arguments"))
+              with Invalid_argument _ -> raise
+                                           (Type_error
+                                             (sprintf "%s: Mismatched number of arguments to function application" (string_of_pos p))))
 
          | _ -> false)
 
-  | TS.App (p, f, args) ->
+  | TS.App (_, f, args) ->
       let open List in
       let t_args = map (synth env) args in
       check env f (TS.TFun (t_args, t))
       
       
-  | TS.If (p, e_cond, e_true, e_false) ->
+  | TS.If (_, e_cond, e_true, e_false) ->
       (check env e_cond  TS.TPred) &&
       (check env e_true  TS.TPol)  &&
       (check env e_false TS.TPol)  &&
       (t = TS.TPol)
 
-  | TS.Par (p, e1, e2)
-  | TS.Seq (p, e1, e2) ->
+  | TS.Par (_, e1, e2)
+  | TS.Seq (_, e1, e2) ->
       check env e1 TS.TPol &&
       check env e2 TS.TPol &&
       t = TS.TPol
 
 
-  | TS.Filter (p, e) ->
+  | TS.Filter (_, e) ->
       check env e TS.TPred && t = TS.TPred
 
-  | TS.True (p)
-  | TS.False (p) -> t = TS.TPred
+  | TS.True (_)
+  | TS.False (_) -> t = TS.TPred
 
-  | TS.Mod (p, e1, e2) ->
+  | TS.Mod (_, e1, e2) ->
       (TS.TPol = synth env e) && (t = TS.TPol)
 
-  | TS.Test (p, e1, e2) ->
+  | TS.Test (_, e1, e2) ->
       (TS.TPred = synth env e) && (t = TS.TPred)
 
-  | TS.And (p, e1, e2)
-  | TS.Or  (p, e1, e2) ->
+  | TS.And (_, e1, e2)
+  | TS.Or  (_, e1, e2) ->
       check env e1 TS.TPred &&
       check env e2 TS.TPred &&
       t = TS.TPred
 
-  | TS.Neg (p, e) ->
+  | TS.Neg (_, e) ->
       check env e TS.TPred && t = TS.TPred
 
-  | TS.Header (p, h) ->
+  | TS.Header (_, h) ->
       (match synth env e, t with
          | TS.THdr w1, TS.THdr w2 -> w1 = w2
          | _ -> false)
 
-  | TS.HeaderVal (p, hv) ->
+  | TS.HeaderVal (_, hv) ->
       (match synth env e, t with
          | TS.TInt w1, TS.TInt w2 -> w1 = w2
          | _ -> false)
 
-  | TS.TypeIs (p, e, t') ->
+  | TS.TypeIs (_, e, t') ->
       check env e t' && t = t' 
 
 

@@ -100,9 +100,6 @@ let empty_env  = V.empty_env
 exception Eval_error of string
 
 
-(* TODO : Include pos in errors *)
-
-
 let rec eval_helper (env : env) (e : exp) : V.value = 
 
   match e with
