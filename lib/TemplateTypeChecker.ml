@@ -88,7 +88,16 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
     | TS.False  (p) ->
         TS.TPred
 
-    | TS.Mod  (p, e1, e2)
+    | TS.Mod  (p, e1, e2) ->
+        let t_e1 = synth env e1 in
+        let t_e2 = synth env e2 in
+        (match t_e1, t_e2 with
+           | TS.THdr w1, TS.TInt w2 -> if w1 >= w2
+                                       then TS.TPol
+                                       else raise (Type_error "Value is greater than what header can accomodate")
+
+           | _ -> raise (Type_error "Mismatched type"))
+
     | TS.Test  (p, e1, e2) ->
         let t_e1 = synth env e1 in
         let t_e2 = synth env e2 in
@@ -184,10 +193,10 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
       
       
   | TS.If (p, e_cond, e_true, e_false) ->
-      check env e_cond  TS.TPred &&
-      check env e_true  TS.TPol  &&
-      check env e_false TS.TPol  &&
-      t = TS.TPol
+      (check env e_cond  TS.TPred) &&
+      (check env e_true  TS.TPol)  &&
+      (check env e_false TS.TPol)  &&
+      (t = TS.TPol)
 
   | TS.Par (p, e1, e2)
   | TS.Seq (p, e1, e2) ->
@@ -202,9 +211,11 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
   | TS.True (p)
   | TS.False (p) -> t = TS.TPred
 
-  | TS.Mod (p, e1, e2)
+  | TS.Mod (p, e1, e2) ->
+      (TS.TPol = synth env e) && (t = TS.TPol)
+
   | TS.Test (p, e1, e2) ->
-      TS.TPred = synth env e && t = TS.TPred
+      (TS.TPred = synth env e) && (t = TS.TPred)
 
   | TS.And (p, e1, e2)
   | TS.Or  (p, e1, e2) ->
