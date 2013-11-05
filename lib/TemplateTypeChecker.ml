@@ -83,13 +83,14 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
         
       
     | TS.If  (p, e_cond, e_true, e_false) ->
-        if check env e_cond  TS.TPred &&
-           check env e_true  TS.TPol  && 
-           check env e_false TS.TPol
-        then TS.TPol
-        else raise
-               (Type_error
-                  (sprintf "%s: Type error in \"if\"" (string_of_pos p)))
+        if not (check env e_cond TS.TPred)
+        then raise (Type_error (sprintf "%s: Condition should be predicate in \"if\"" (string_of_pos p)))
+        else 
+        if not (check env e_true TS.TPol)
+        then raise (Type_error (sprintf "%s: True branch should be a policy in \"if\"" (string_of_pos p)))
+        else if not (check env e_false TS.TPol)
+        then  raise (Type_error (sprintf "%s: False branch should be a policy in \"if\"" (string_of_pos p)))
+        else TS.TPol
 
     | TS.Par (p, e1, e2)
     | TS.Seq (p, e1, e2) ->
@@ -249,7 +250,7 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
 
 
   | TS.Filter (_, e) ->
-      check env e TS.TPred && t = TS.TPred
+      (check env e TS.TPred) && (t = TS.TPol)
 
   | TS.True (_)
   | TS.False (_) -> t = TS.TPred
