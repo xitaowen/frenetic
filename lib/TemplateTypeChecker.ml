@@ -132,6 +132,7 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
         let t_e2 = synth env e2 in
         (match t_e1, t_e2 with
            | TS.THdr w1, TS.TInt w2 ->
+               print_string ("w1 = " ^ (string_of_int w1) ^ ", w2 = " ^ (string_of_int w2) ^ "\n");
                if w1 >= w2
                then TS.TPred
                else raise
@@ -185,7 +186,10 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
         
         
     | TS.HeaderVal  (_, hdr_val) ->
-        TS.TInt (get_msb_loc (VInt.get_int64 hdr_val))
+        let msb_loc = get_msb_loc (VInt.get_int64 hdr_val)
+        in
+        print_string ("Header val width is : " ^ (string_of_int msb_loc) ^ "\n");
+        TS.TInt (msb_loc)
         
 
     | TS.TypeIs  (p, e, t) ->
@@ -282,7 +286,7 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
                * Relax exact requirement as specified value can be smaller
                * than maximum value
                *)
-              w2 >= w1 
+               w2 >= w1 
 
          | _ -> false)
 

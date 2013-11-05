@@ -60,8 +60,13 @@
 %token COLONEQ
 %token FUN
 %token RARROW
-%token THEADERVAL
-
+%token TSWITCHVAL
+%token TPORTVAL
+%token TMACVAL
+%token TVLANVAL
+%token TIPVAL
+%token TFRAMETYPEVAL
+%token TPROTOTYPEVAL
 
 
 
@@ -91,13 +96,23 @@ header_typ :
   | PROTOCOLTYPE { THdr (8)  }
 
 
+header_val_typ:
+  | TSWITCHVAL    { TInt (64) }
+  | TPORTVAL      { TInt (16) }
+  | TMACVAL       { TInt (48) }
+  | TVLANVAL      { TInt (16) }
+  | TIPVAL        { TInt (32) }
+  | TFRAMETYPEVAL { TInt (8) }
+  | TPROTOTYPEVAL { TInt (8) }
+
+
 
 atom_typ :
   | TPRED             { TPred }
   | TPOL              { TPol  }
   | LPAREN typ RPAREN { $2 }
   | header_typ        { $1 }
-  | THEADERVAL        { TInt (64) }
+  | header_val_typ    { $1 }
 
 
 typ :
