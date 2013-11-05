@@ -276,7 +276,13 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
 
   | TS.HeaderVal (_, hv) ->
       (match synth env e, t with
-         | TS.TInt w1, TS.TInt w2 -> w1 = w2
+         | TS.TInt w1, TS.TInt w2 -> 
+              (* 
+               * Relax exact requirement as specified value can be smaller
+               * than maximum value
+               *)
+              w2 >= w1 
+
          | _ -> false)
 
   | TS.TypeIs (_, e, t') ->

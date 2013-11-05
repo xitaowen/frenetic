@@ -23,26 +23,17 @@ rule token = parse
   | eof { EOF }
   | "," { COMMA }
   | "in" { IN }
-  (* | "@" { AT } *)
   | "(" { LPAREN }
   | ")" { RPAREN }
   | ":" { COLON }
   | "pol" { TPOL }
   | "pred" { TPRED }
 
-  (* | "{" { LCURLY } *)
-  (* | "}" { RCURLY } *)
-  (* | "?" { QMARK }  *)
-  (* | "*" { STAR }   *)
-  (* | "=>" { DBLARROW } *)
   | "true" { TRUE }
   | "false" { FALSE }
-  (* | "all" { ALL } *)
-  (* | "fwd" { FWD } *)
   | "<none>" { NONE }
   | "=" { EQUALS }
   | "filter" { FILTER }
-  (* | ":=" { ASSIGN } *)
   | "switch" { SWITCH }
   | "port" { PORT }
   | "ethSrc" { SRCMAC }
@@ -60,20 +51,11 @@ rule token = parse
   | "icmp" { ICMP }
   | "tcp" { TCP }
   | "udp" { UDP }
-  (* | "begin" { BEGIN } *)
-  (* | "end" { END } *)
   | "if" { IF }
   | "then" { THEN }
   | "else" { ELSE }
-  (* | "id" { ID } *)
-  (* | "drop" { DROP } *)
   | "let" { LET }
-  (* | "and" { AND } *)
-  (* | "or" { OR } *)
-  (* | "not" { NOT } *)
-  (* | "&" { AMP } *)
   | ";" { SEMI }
-  (* | "|" { BAR } *)
   | "+" { PLUS }
   | "fun"  { FUN }
   | "||"   { PIPEPIPE }
@@ -81,6 +63,7 @@ rule token = parse
   | "!"    { BANG }
   | ":="   { COLONEQ }
   | "->"   { RARROW }
+  | "hdVal" {THEADERVAL}
 
   | (byte as n6) ":" (byte as n5) ":" (byte as n4) ":" (byte as n3) ":" 
     (byte as n2) ":" (byte as n1) 

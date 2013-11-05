@@ -60,6 +60,7 @@
 %token COLONEQ
 %token FUN
 %token RARROW
+%token THEADERVAL
 
 
 
@@ -76,22 +77,32 @@ ident_list :
   | IDENT                  { [$1] }
   | IDENT COMMA ident_list { $1 :: $3 }
 
+header_typ :
+  | SWITCH       { THdr (64) }
+  | PORT         { THdr (16) }
+  | TCPSRCPORT   { THdr (16) }
+  | TCPDSTPORT   { THdr (16) }
+  | SRCMAC       { THdr (48) }
+  | DSTMAC       { THdr (48) }
+  | VLAN         { THdr (16) }
+  | SRCIP        { THdr (32) }
+  | DSTIP        { THdr (32) }
+  | FRAMETYPE    { THdr (8)  }
+  | PROTOCOLTYPE { THdr (8)  }
+
+
 
 atom_typ :
   | TPRED             { TPred }
   | TPOL              { TPol  }
   | LPAREN typ RPAREN { $2 }
+  | header_typ        { $1 }
+  | THEADERVAL        { TInt (64) }
 
 
-
-/* TODO : What are the types in our language */
 typ :
   | atom_typ { $1 }
   | atom_typ RARROW atom_typ { TFun ([$1], $3) }
-
-  /* | THEADER { THdr (some width) }    */
-  /* | THEADERVAL { TInt (some width) } */
-
 
 
 arg_type_list :
