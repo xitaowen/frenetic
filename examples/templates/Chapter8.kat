@@ -1,38 +1,32 @@
-let switch1_pol = 
-  if ethDst = 00:00:00:00:00:03 || ethDst = 00:00:00:00:00:04
-  then port := 2
-  else
-  if ethDst = 00:00:00:00:00:01 || ethDst = 00:00:00:00:00:02
-  then port := 1
-  else filter false (* drop *)
+(* Multi-switch programming *)
+
+let h1_mac = 00:00:00:00:00:01 in
+let h2_mac = 00:00:00:00:00:02 in
+let h3_mac = 00:00:00:00:00:03 in
+let h4_mac = 00:00:00:00:00:04 in
+
+let switch_map = fun h4_port : tPort,
+                     h3_port : tPort,
+                     h2_port : tPort,
+                     h1_port : tPort : pol =
+
+  let fwd_cond = fun dst_mac : tMacAddr,
+                     out_port : tPort : pol = 
+        filter ethDst = dst_mac; port := out_port
+
+  in
+
+  fwd_cond (h4_mac, h4_port) + 
+  fwd_cond (h3_mac, h3_port) +
+  fwd_cond (h2_mac, h2_port) +
+  fwd_cond (h1_mac, h1_port) +
+  drop
 
 in
 
-let switch2_pol = 
-  if ethDst = 0:00:00:00:00:03 || ethDst = 00:00:00:00:00:04
-  then port := 3
-  else
-  if ethDst = 00:00:00:00:00:02
-  then port := 2
-  else
-  if ethDst = 00:00:00:00:00:01
-  then port := 1
-  else filter false (* drop *)
-
-in
-
-let switch3_pol = 
-  if ethDst = 0:00:00:00:00:01 || ethDst = 00:00:00:00:00:02
-  then port := 3
-  else
-  if ethDst = 00:00:00:00:00:04
-  then port := 2
-  else
-  if ethDst = 00:00:00:00:00:03
-  then port := 1
-  else filter false (* drop *)
-
-in
+let switch1_pol = switch_map (2,2,1,1) in
+let switch2_pol = switch_map (3,3,2,1) in
+let switch3_pol = switch_map (2,1,3,3) in 
 
 let forwarding = 
   if switch = 1 then switch1_pol
@@ -41,15 +35,17 @@ let forwarding =
 
 in 
 
-let firewall = if (ethSrc = 00:00:00:00:00:02 && 
-                   ethDst = 00:00:00:00:00:01 &&
-                   tcpDstPort = 80) 
-                   ||
-                  (ethSrc = 00:00:00:00:00:01 &&
-                   ethDst = 00:00:00:00:00:02 &&
-                   tcpSrcPort = 80)
-               then filter false (* drop *)
-               else filter true  (* pass *)
+let FilterHttpTraffic = 
+  fun h1_mac : tMacAddr, h2_mac : tMacAddr : pol =
+    if ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
+        (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
+    then pass
+    else drop
+
+in
+
+let firewall = FilterHttpTraffic (00:00:00:00:00:01, 
+                                  00:00:00:00:00:02)
 
 in
 

@@ -205,7 +205,10 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
 
   | TS.Id (p, x) -> 
       (try
-         t = env_lookup x env
+         let t' = env_lookup x env in
+         (match t, t' with
+            | TS.TInt w1, TS.TInt w2 -> (* all bets are off *) true
+            | _, _ -> if t = t' then true else raise (Type_error (sprintf "%s: Unequal types" (string_of_pos p))))
        with Not_found -> raise
                            (Type_error
                              (sprintf "%s: Unbound Identifier %s" (string_of_pos p) x)))
@@ -287,8 +290,8 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
 
          | _ -> false)
 
-  | TS.TypeIs (_, e, t') ->
-      check env e t' && t = t' 
+  | TS.TypeIs (_, e', t') ->
+      (check env e' t') && (t = t')
 
 
 let type_check (e : TS.exp) (t : TS.typ) : bool =
