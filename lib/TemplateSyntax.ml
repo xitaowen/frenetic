@@ -94,6 +94,10 @@ let empty_env  = V.empty_env
 
 exception Eval_error of string
 
+let to_pol (v : V.value) : policy = match v with
+  | V.Policy pol -> pol
+  | V.Predicate pred -> Types.Filter pred
+  | _ -> raise (Eval_error "expected policy or predicate")
 
 let rec eval_helper (env : env) (e : exp) : V.value = 
 
@@ -126,31 +130,23 @@ let rec eval_helper (env : env) (e : exp) : V.value =
                        (sprintf "%s: Expected a function" (string_of_pos p))))
         
     | If (p, pred, pol_true, pol_false) ->
-        (match eval_helper env pred,
-               eval_helper env pol_true,
-               eval_helper env pol_false with
-          | V.Predicate pre, V.Policy pte, V.Policy pfe -> 
-              V.Policy (NKT.Par (NKT.Seq (NKT.Filter pre, pte),
-                                 NKT.Seq (NKT.Filter (NKT.Neg pre), pfe)))
+        (match eval_helper env pred with
+          | V.Predicate pre ->
+              V.Policy (NKT.Par (NKT.Seq (NKT.Filter pre, 
+                                          to_pol (eval_helper env pol_true)),
+                                 NKT.Seq (NKT.Filter (NKT.Neg pre),
+                                          to_pol (eval_helper env pol_false))))
           | _ -> raise 
                    (Eval_error 
                       (sprintf "%s: Mismatched types to if" (string_of_pos p))))
 
 
     | Par (p, e1, e2) -> 
-        (match eval_helper env e1, eval_helper env e2 with
-           | V.Policy p1, V.Policy p2 -> V.Policy (NKT.Par (p1, p2))
-           | _ -> raise 
-                    (Eval_error 
-                       (sprintf "%s: \"+\" expects two policies" (string_of_pos p)))) 
-
-    | Seq (p, e1, e2) -> 
-        (match eval_helper env e1, eval_helper env e2 with
-           | V.Policy p1, V.Policy p2 -> V.Policy (NKT.Seq (p1, p2))
-           | _ -> raise 
-                    (Eval_error 
-                      (sprintf "%s: \";\" expects two policies" (string_of_pos p))))
-
+        V.Policy (Types.Par (to_pol (eval_helper env e1),
+                             to_pol (eval_helper env e2)))
+    | Seq (p, e1, e2) ->
+        V.Policy (Types.Seq (to_pol (eval_helper env e1),
+                             to_pol (eval_helper env e2)))
     | Mod (p, e1, e2) -> 
        (match eval_helper env e1, eval_helper env e2 with
           | V.Header h, V.HeaderVal hv -> V.Policy (NKT.Mod (h, hv))
@@ -158,16 +154,9 @@ let rec eval_helper (env : env) (e : exp) : V.value =
                    (Eval_error 
                      (sprintf "%s: Mismatched types to \":=\"" (string_of_pos p))))
 
-    | Filter (p, e') -> 
-       (match eval_helper env e' with
-          | V.Predicate pr -> V.Policy (NKT.Filter pr)
-          | _ -> raise 
-                   (Eval_error 
-                     (sprintf "%s: Mismatched types to \"filter\"" (string_of_pos p))))
-
+    | Filter (p, e') -> eval_helper env e'
     | True _ -> V.Predicate NKT.True
     | False _ -> V.Predicate NKT.False
-
     | Test (p, e1, e2) ->
         (match eval_helper env e1, eval_helper env e2 with
           | V.Header h, V.HeaderVal hv -> V.Predicate (NKT.Test (h, hv))
@@ -205,6 +194,4 @@ let rec eval_helper (env : env) (e : exp) : V.value =
 
 
 let eval (e : exp) : NKT.policy =
-  match (eval_helper empty_env e) with
-    | V.Policy p -> p
-    | _ -> raise (Eval_error "Expected a policy")
+  to_pol (eval_helper empty_env e)

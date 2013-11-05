@@ -35,10 +35,16 @@ let forwarding =
 
 in 
 
-let FilterHttpTraffic = 
+
+let isHttp = fun h1_mac : tMacAddr, h2_mac : tMacAddr : pred = 
+  filter ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
+          (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
+in
+
+let FilterHttpTraffic =  
   fun h1_mac : tMacAddr, h2_mac : tMacAddr : pol =
-    if ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
-        (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
+    if (isHttp (h1_mac, h2_mac)) (*((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
+        (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))*)
     then pass
     else drop
 

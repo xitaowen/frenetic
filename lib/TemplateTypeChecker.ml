@@ -1,7 +1,21 @@
 exception Type_error of string
 
-
 module TS = TemplateSyntax
+
+
+let rec is_subtype (s : TS.typ) (t : TS.typ) : bool = 
+  let open TS in
+  match (s, t) with
+    | TPred, TPred -> true
+    | THdr m, THdr n -> m = n
+    | TInt m, TInt n -> m <= n
+    | TPol, TPol -> true
+    | TPred, TPol -> true
+    | TFun (args1, r1), TFun (args2, r2) ->
+      List.length args1 = List.length args2 &&
+      is_subtype r1 r2 &&
+      List.for_all2 is_subtype args2 args1
+    | _ -> false
 
 module Env = Map.Make (String)
 
@@ -103,7 +117,7 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
 
     | TS.Filter  (p, e) ->
         if check env e TS.TPred
-        then TS.TPol
+        then TS.TPred
         else raise
                (Type_error
                   (sprintf "%s: Expected a predicate with \"filter\"" (string_of_pos p)))
@@ -196,20 +210,18 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
                (Type_error
                  (sprintf "%s: Incorrect type annotation" (string_of_pos p)))
 
-
-and 
-
-check (env : env) (e : TS.exp) (t : TS.typ) : bool =
+and check (env : env) (e : TS.exp) (t : TS.typ) : bool =
 
   match e with
 
   | TS.Id (p, x) -> 
       (try
          let t' = env_lookup x env in
-         (match t, t' with
+         is_subtype  t' t
+(*          (match t, t' with
             | TS.TInt w1, TS.TInt w2 -> (* all bets are off *) true
             | _, _ -> if t = t' then true else raise (Type_error (sprintf "%s: Unequal types" (string_of_pos p))))
-       with Not_found -> raise
+ *)       with Not_found -> raise
                            (Type_error
                              (sprintf "%s: Unbound Identifier %s" (string_of_pos p) x)))
 
@@ -254,44 +266,35 @@ check (env : env) (e : TS.exp) (t : TS.typ) : bool =
 
 
   | TS.Filter (_, e) ->
-      (check env e TS.TPred) && (t = TS.TPol)
+      (check env e TS.TPred) && (is_subtype TS.TPred t)
 
   | TS.True (_)
-  | TS.False (_) -> t = TS.TPred
+  | TS.False (_) -> is_subtype TS.TPred t
 
   | TS.Mod (_, e1, e2) ->
       (TS.TPol = synth env e) && (t = TS.TPol)
 
   | TS.Test (_, e1, e2) ->
-      (TS.TPred = synth env e) && (t = TS.TPred)
+      (TS.TPred = synth env e) && (is_subtype TS.TPred t)
 
   | TS.And (_, e1, e2)
   | TS.Or  (_, e1, e2) ->
       check env e1 TS.TPred &&
       check env e2 TS.TPred &&
-      t = TS.TPred
+      is_subtype TS.TPred t
 
   | TS.Neg (_, e) ->
-      check env e TS.TPred && t = TS.TPred
+      check env e TS.TPred && is_subtype TS.TPred t
 
   | TS.Header (_, h) ->
       (match synth env e, t with
          | TS.THdr w1, TS.THdr w2 -> w1 = w2
          | _ -> false)
 
-  | TS.HeaderVal (_, hv) ->
-      (match synth env e, t with
-         | TS.TInt w1, TS.TInt w2 -> 
-              (* 
-               * Relax exact requirement as specified value can be smaller
-               * than maximum value
-               *)
-               w2 >= w1 
-
-         | _ -> false)
+  | TS.HeaderVal (_, hv) -> is_subtype (synth env e) t
 
   | TS.TypeIs (_, e', t') ->
-      (check env e' t') && (t = t')
+      (check env e' t') && (is_subtype t' t)
 
 
 let type_check (e : TS.exp) (t : TS.typ) : bool =
