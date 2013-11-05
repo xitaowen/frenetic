@@ -12,7 +12,7 @@ let switch_map = fun h4_port : tPort,
 
   let fwd_cond = fun dst_mac : tMacAddr,
                      out_port : tPort : pol = 
-        filter ethDst = dst_mac; port := out_port
+        ethDst = dst_mac; port := out_port
 
   in
 
@@ -37,8 +37,8 @@ in
 
 
 let isHttp = fun h1_mac : tMacAddr, h2_mac : tMacAddr : pred = 
-  filter ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
-          (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
+  ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
+   (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
 in
 
 let FilterHttpTraffic =  

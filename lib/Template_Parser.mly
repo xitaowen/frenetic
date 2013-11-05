@@ -161,42 +161,34 @@ header_val_or_id :
   | header_val { HeaderVal (symbol_start_pos (), VInt.Int64 $1) }
   | IDENT      { Id (symbol_start_pos (), $1) }
 
-atom_pred :
-  | TRUE                            { True (symbol_start_pos ()) }
-  | FALSE                           { False (symbol_start_pos ()) }
-  | LPAREN pred RPAREN                   { $2 }
-  | IDENT                                { Id (symbol_start_pos (), $1) }
-  | header_or_id EQUALS header_val_or_id { Test (symbol_start_pos (), $1, $3) }
-  | BANG atom_pred                       { Neg (symbol_start_pos (), $2) }
-
-and_pred :
-  | atom_pred                 { $1 }
-  | and_pred AMPAMP atom_pred { And (symbol_start_pos (), $1, $3) }
-
-or_pred :
-  | and_pred                  { $1 }
-  | or_pred PIPEPIPE and_pred { Or (symbol_start_pos (), $1, $3) }
-
-pred :
-  or_pred { $1 }
-
 atom_exp :
   | LPAREN exp RPAREN               { $2 }
   | header                          { Header (symbol_start_pos (), $1) }
   | header_val                      { HeaderVal (symbol_start_pos (), VInt.Int64 $1) }
   | IDENT                           { Id (symbol_start_pos (), $1) }
   | atom_exp LPAREN exp_list RPAREN { App (symbol_start_pos (), $1, $3) }
-  | FILTER pred                     { Filter (symbol_start_pos (), $2) }
-  | DROP                            { Filter (symbol_start_pos (), False (symbol_start_pos ())) }
-  | PASS                            { Filter (symbol_start_pos (), True  (symbol_start_pos ())) }
+  | TRUE                            { True (symbol_start_pos ()) }
+  | FALSE                           { False (symbol_start_pos ()) }
+  | header_or_id EQUALS header_val_or_id { Test (symbol_start_pos (), $1, $3) }
+  | BANG atom_exp                   { Neg (symbol_start_pos (), $2) }
+  | DROP                            { False (symbol_start_pos ()) }
+  | PASS                            { True (symbol_start_pos ()) }
 
 mod_exp :
   | atom_exp                  { $1 }
   | atom_exp COLONEQ atom_exp { Mod (symbol_start_pos (), $1, $3) }  
 
+and_exp :
+  | mod_exp                  { $1 }
+  | and_exp AMPAMP mod_exp { And (symbol_start_pos (), $1, $3) }
+
+or_exp :
+  | and_exp                 { $1 }
+  | or_exp PIPEPIPE and_exp { Or (symbol_start_pos (), $1, $3) }
+
 seq_exp :
-  | mod_exp              { $1 }
-  | seq_exp SEMI mod_exp { Seq (symbol_start_pos (), $1, $3) }
+  | or_exp              { $1 }
+  | seq_exp SEMI and_exp { Seq (symbol_start_pos (), $1, $3) }
 
 par_exp :
   | seq_exp               { $1 }

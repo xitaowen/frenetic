@@ -9,7 +9,7 @@ let type_check_file (filename) =
     in TemplateTypeChecker.type_check template_exp TemplateSyntax.TPol
 
 
-let p1 = "(fun x : pol : pol = x) (filter true)"
+let p1 = "(fun x : pol : pol = x) (true)"
 
 TEST "Typeis test1" =  (eval (template_parse p1)) = Types.Filter Types.True
 
