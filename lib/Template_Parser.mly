@@ -67,6 +67,9 @@
 %token TIPVAL
 %token TFRAMETYPEVAL
 %token TPROTOTYPEVAL
+%token DROP
+%token PASS
+%token FWD
 
 
 
@@ -184,6 +187,8 @@ atom_exp :
   | IDENT                           { Id (symbol_start_pos (), $1) }
   | atom_exp LPAREN exp_list RPAREN { App (symbol_start_pos (), $1, $3) }
   | FILTER pred                     { Filter (symbol_start_pos (), $2) }
+  | DROP                            { Filter (symbol_start_pos (), False (symbol_start_pos ())) }
+  | PASS                            { Filter (symbol_start_pos (), True  (symbol_start_pos ())) }
 
 mod_exp :
   | atom_exp                  { $1 }

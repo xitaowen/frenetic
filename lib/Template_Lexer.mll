@@ -69,6 +69,9 @@ rule token = parse
   | "tIP"      { TIPVAL }
   | "tEthType" { TFRAMETYPEVAL }
   | "tIPProtoType" {TPROTOTYPEVAL }
+  | "drop"     { DROP }
+  | "pass"     { PASS }
+  | "fwd"      { FWD }
 
   | (byte as n6) ":" (byte as n5) ":" (byte as n4) ":" (byte as n3) ":" 
     (byte as n2) ":" (byte as n1) 
