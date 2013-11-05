@@ -1,5 +1,5 @@
 %{
-  open SDN_Headers
+  open Types
   open TemplateSyntax
 
   (* Ethernet frame types *)
@@ -129,17 +129,17 @@ arg_type_list :
   | IDENT COLON typ COMMA arg_type_list { ($1, $3) :: $5 }
 
 header :
-  | SWITCH       { SDN_Headers.Switch                      }
-  | PORT         { SDN_Headers.Header SDN_Types.InPort     }
-  | TCPSRCPORT   { SDN_Headers.Header SDN_Types.TCPSrcPort }
-  | TCPDSTPORT   { SDN_Headers.Header SDN_Types.TCPDstPort }
-  | SRCMAC       { SDN_Headers.Header SDN_Types.EthSrc     }
-  | DSTMAC       { SDN_Headers.Header SDN_Types.EthDst     }
-  | VLAN         { SDN_Headers.Header SDN_Types.Vlan       }
-  | SRCIP        { SDN_Headers.Header SDN_Types.IP4Src     }
-  | DSTIP        { SDN_Headers.Header SDN_Types.IP4Dst     }
-  | FRAMETYPE    { SDN_Headers.Header SDN_Types.EthType    }
-  | PROTOCOLTYPE { SDN_Headers.Header SDN_Types.IPProto    }
+  | SWITCH       { Types.Switch                      }
+  | PORT         { Types.Header SDN_Types.InPort     }
+  | TCPSRCPORT   { Types.Header SDN_Types.TCPSrcPort }
+  | TCPDSTPORT   { Types.Header SDN_Types.TCPDstPort }
+  | SRCMAC       { Types.Header SDN_Types.EthSrc     }
+  | DSTMAC       { Types.Header SDN_Types.EthDst     }
+  | VLAN         { Types.Header SDN_Types.Vlan       }
+  | SRCIP        { Types.Header SDN_Types.IP4Src     }
+  | DSTIP        { Types.Header SDN_Types.IP4Dst     }
+  | FRAMETYPE    { Types.Header SDN_Types.EthType    }
+  | PROTOCOLTYPE { Types.Header SDN_Types.IPProto    }
 
 
 header_val :

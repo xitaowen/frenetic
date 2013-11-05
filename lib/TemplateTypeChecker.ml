@@ -21,7 +21,7 @@ let string_of_pos pos =
 
 
 
-module NKT = NetKAT_Types
+module NKT = Types
 
 
 let rec get_msb_loc (x : Int64.t) : int =
@@ -160,7 +160,7 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
                  (sprintf "%s: \"!\" expects to work on predicates" (string_of_pos p)))
 
     | TS.Header  (_, hdr) ->
-        let module SDNH = SDN_Headers in
+        let module SDNH = Types in
         (match hdr with
            | SDNH.Header (h) -> 
                let module SDNT = SDN_Types in

@@ -1,15 +1,10 @@
+open Types
 type pos = Lexing.position
 
 type id = string
 
 
-module NKT = NetKAT_Types
-
-type header     = NKT.header
-type header_val = NKT.header_val
-type policy     = NKT.policy
-type pred       = NKT.pred
-
+module NKT = Types
 
 type width = int
 

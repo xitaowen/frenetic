@@ -25,7 +25,7 @@ let run_template args = match args with
     let template_exp = Template_Parser.program Template_Lexer.token (Lexing.from_channel cin)
     in if TemplateTypeChecker.type_check template_exp TemplateSyntax.TPol
        then let exp = TemplateSyntax.eval template_exp in
-            Lwt_main.run (Controller.start 6633 (NetCore_Stream.constant exp))
+            Lwt_main.run (Controller.start 6633 (Stream.constant exp))
        else Format.printf "Invalid Program"
   | _ -> help [ "run" ]
 

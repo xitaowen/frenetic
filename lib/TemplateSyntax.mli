@@ -1,13 +1,9 @@
+open Types
 exception Eval_error of string
 
 type pos = Lexing.position
 
 type id = string
-
-type header = NetKAT_Types.header
-
-type header_val = NetKAT_Types.header_val
-
 
 type width = int
 
@@ -39,4 +35,4 @@ type exp =
   | HeaderVal of pos * header_val
   | TypeIs of pos * exp * typ
 
-val eval : exp -> NetKAT_Types.policy
+val eval : exp -> policy

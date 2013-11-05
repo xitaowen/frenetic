@@ -6,4 +6,4 @@ let template_parse (t : string) : exp =
 
 
 let p1 = "(fun x : pol : pol = x) (filter true)"
-TEST "Typeis test1" =  (eval (template_parse p1)) = NetKAT_Types.Filter (NetKAT_Types.True) 
+TEST "Typeis test1" =  (eval (template_parse p1)) = Types.Filter Types.True
