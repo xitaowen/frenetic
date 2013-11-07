@@ -121,7 +121,7 @@ atom_typ :
 
 typ :
   | atom_typ { $1 }
-  | atom_typ RARROW atom_typ { TFun ([$1], $3) }
+  | atom_typ RARROW typ { TFun ([$1], $3) }
 
 
 arg_type_list :
@@ -170,16 +170,18 @@ atom_exp :
   | TRUE                            { True (symbol_start_pos ()) }
   | FALSE                           { False (symbol_start_pos ()) }
   | header_or_id EQUALS header_val_or_id { Test (symbol_start_pos (), $1, $3) }
-  | BANG atom_exp                   { Neg (symbol_start_pos (), $2) }
   | DROP                            { False (symbol_start_pos ()) }
   | PASS                            { True (symbol_start_pos ()) }
   | header_val_or_id AT header_val_or_id DBLARROW header_val_or_id AT header_val_or_id
       { Link (symbol_start_pos (), $1, $3, $5, $7) }
 
+bang_exp :
+  | atom_exp      { $1 }
+  | BANG bang_exp { Neg (symbol_start_pos (), $2) }
 
 mod_exp :
-  | atom_exp                  { $1 }
-  | atom_exp COLONEQ atom_exp { Mod (symbol_start_pos (), $1, $3) }  
+  | bang_exp                  { $1 }
+  | atom_exp COLONEQ bang_exp { Mod (symbol_start_pos (), $1, $3) }  
 
 and_exp :
   | mod_exp                  { $1 }
@@ -206,9 +208,9 @@ exp :
   | par_exp                      { $1 }
   | LET IDENT EQUALS exp IN exp  { Let (symbol_start_pos (), $2, $4, $6) }
   | IF exp THEN exp ELSE exp     { If (symbol_start_pos (), $2, $4, $6) }
-  | FUN LPAREN ident_list RPAREN EQUALS exp    { Fun (symbol_start_pos (), $3, $6) }
+  | FUN LPAREN ident_list RPAREN RARROW exp    { Fun (symbol_start_pos (), $3, $6) }
 
-  | FUN LPAREN arg_type_list RPAREN COLON typ EQUALS exp 
+  | FUN LPAREN arg_type_list RPAREN COLON atom_typ RARROW exp 
       {
         let (id_list, id_type_list) = List.split $3 in
         TypeIs (symbol_start_pos (), 

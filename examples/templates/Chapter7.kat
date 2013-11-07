@@ -11,7 +11,7 @@ let firewall =
 
   let isHTTP = 
     fun (h1_mac : tMacAddr, 
-         h2_mac : tMacAddr) : pred =
+         h2_mac : tMacAddr) : pred ->
       ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
        (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
 
@@ -19,7 +19,7 @@ let firewall =
 
   let isICMP =
     fun (h1_mac : tMacAddr,
-         h2_mac : tMacAddr) : pred =
+         h2_mac : tMacAddr) : pred ->
       ((ethSrc = h1_mac && ethDst = h2_mac && ipProto = icmp) ||
        (ethSrc = h2_mac && ethDst = h1_mac && ipProto = icmp))
 
