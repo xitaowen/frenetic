@@ -122,6 +122,13 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
                (Type_error
                   (sprintf "%s: Expected a predicate with \"filter\"" (string_of_pos p)))
 
+    | TS.Link (p, _, _, _, _) ->
+        if check env e TS.TPol
+        then TS.TPol
+        else raise
+               (Type_error
+                 (sprintf "%s: Mismatched types" (string_of_pos p)))
+
     | TS.True  (_)
     | TS.False  (_) ->
         TS.TPred
@@ -267,6 +274,14 @@ and check (env : env) (e : TS.exp) (t : TS.typ) : bool =
 
   | TS.Filter (_, e) ->
       (check env e TS.TPred) && (is_subtype TS.TPred t)
+
+  | TS.Link (p, sw_e, pt_e, sw_e', pt_e') ->
+      let sw_width = 64 in
+      let pt_width = 16 in
+      check env sw_e  (TS.TInt (sw_width)) &&
+      check env pt_e  (TS.TInt (pt_width)) &&
+      check env sw_e' (TS.TInt (sw_width)) &&
+      check env pt_e' (TS.TInt (pt_width))
 
   | TS.True (_)
   | TS.False (_) -> is_subtype TS.TPred t

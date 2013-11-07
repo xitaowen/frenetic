@@ -72,6 +72,8 @@ rule token = parse
   | "drop"     { DROP }
   | "pass"     { PASS }
   | "fwd"      { FWD }
+  | "@"        { AT }
+  | "=>"       { DBLARROW }
 
   | (byte as n6) ":" (byte as n5) ":" (byte as n4) ":" (byte as n3) ":" 
     (byte as n2) ":" (byte as n1) 

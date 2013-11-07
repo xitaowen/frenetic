@@ -25,6 +25,7 @@ type exp =
   | Seq of pos * exp * exp
   | Mod of pos * exp * exp
   | Filter of pos * exp
+  | Link of pos * exp * exp * exp * exp
   | True of pos 
   | False of pos
   | Test of pos * exp * exp

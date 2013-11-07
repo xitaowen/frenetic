@@ -70,6 +70,9 @@
 %token DROP
 %token PASS
 %token FWD
+%token AT
+%token DBLARROW
+
 
 
 
@@ -173,6 +176,9 @@ atom_exp :
   | BANG atom_exp                   { Neg (symbol_start_pos (), $2) }
   | DROP                            { False (symbol_start_pos ()) }
   | PASS                            { True (symbol_start_pos ()) }
+  | header_val_or_id AT header_val_or_id DBLARROW header_val_or_id AT header_val_or_id
+      { Link (symbol_start_pos (), $1, $3, $5, $7) }
+
 
 mod_exp :
   | atom_exp                  { $1 }

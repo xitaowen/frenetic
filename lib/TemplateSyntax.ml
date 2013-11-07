@@ -27,6 +27,7 @@ type exp =
   | Seq       of pos * exp * exp
   | Mod       of pos * exp * exp
   | Filter    of pos * exp
+  | Link      of pos * exp * exp * exp * exp
   | True      of pos
   | False     of pos
   | Test      of pos * exp * exp
@@ -155,6 +156,19 @@ let rec eval_helper (env : env) (e : exp) : V.value =
                      (sprintf "%s: Mismatched types to \":=\"" (string_of_pos p))))
 
     | Filter (p, e') -> eval_helper env e'
+
+    | Link (p, sw_e, pt_e, sw_e', pt_e') ->
+        let sw  = eval_helper env sw_e  in
+        let pt  = eval_helper env pt_e  in
+        let sw' = eval_helper env sw_e' in
+        let pt' = eval_helper env pt_e' in
+        (match sw, pt, sw', pt' with
+           | V.HeaderVal hv1, V.HeaderVal hv2, V.HeaderVal hv3, V.HeaderVal hv4 -> 
+               V.Policy (NKT.Link (hv1,  hv2, hv3, hv4))
+           | _ -> raise
+                    (Eval_error
+                       (sprintf "%s: Mismatched type" (string_of_pos p))))
+
     | True _ -> V.Predicate NKT.True
     | False _ -> V.Predicate NKT.False
     | Test (p, e1, e2) ->
