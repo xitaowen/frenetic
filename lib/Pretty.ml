@@ -14,23 +14,6 @@ module Formatting = struct
          pp_print_string fmt ")";
          pp_close_box fmt ())
 
-  (* TODO(nimish) : Can be changed in SDN_Types.format_feild, will save
-     duplication of effort and can be carried into NetCore pretty parser *)
-  let format_field (fmt : formatter) (f : SDN_Types.field) : unit =
-    Format.fprintf fmt
-      (match f with
-        | SDN_Types.InPort ->     "port"
-        | SDN_Types.EthSrc ->     "ethSrc"
-        | SDN_Types.EthDst ->     "ethDst"
-        | SDN_Types.EthType ->    "ethTyp"
-        | SDN_Types.Vlan ->       "vlanId"
-        | SDN_Types.VlanPcp ->    "vlanPcp"
-        | SDN_Types.IP4Src ->     "ipSrc"
-        | SDN_Types.IP4Dst ->     "ipDst"
-        | SDN_Types.IPProto ->    "ipProto"
-        | SDN_Types.TCPSrcPort -> "tcpSrcPort"
-        | SDN_Types.TCPDstPort -> "tcpDstPort")
-      
   let format_value (fmt : formatter) (v : VInt.t) : unit =
     match v with
       | VInt.Int64 n -> 
@@ -41,7 +24,7 @@ module Formatting = struct
       | _ -> VInt.format fmt v
 
   let format_header (fmt : formatter) (h : header) : unit = match h with
-    | Header h' -> format_field fmt h'
+    | Header h' -> SDN_Types.format_field fmt h'
     | Switch -> fprintf fmt "switch"
 
 
