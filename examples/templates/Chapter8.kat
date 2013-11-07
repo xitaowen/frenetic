@@ -5,13 +5,13 @@ let h2_mac = 00:00:00:00:00:02 in
 let h3_mac = 00:00:00:00:00:03 in
 let h4_mac = 00:00:00:00:00:04 in
 
-let switch_map = fun h4_port : tPort,
-                     h3_port : tPort,
-                     h2_port : tPort,
-                     h1_port : tPort : pol =
+let switch_map = fun (h4_port : tPort,
+                      h3_port : tPort,
+                      h2_port : tPort,
+                      h1_port : tPort) : pol =
 
-  let fwd_cond = fun dst_mac : tMacAddr,
-                     out_port : tPort : pol = 
+  let fwd_cond = fun (dst_mac  : tMacAddr,
+                      out_port : tPort) : pol = 
         ethDst = dst_mac; port := out_port
 
   in
@@ -36,13 +36,13 @@ let forwarding =
 in 
 
 
-let isHttp = fun h1_mac : tMacAddr, h2_mac : tMacAddr : pred = 
+let isHttp = fun (h1_mac : tMacAddr, h2_mac : tMacAddr) : pred = 
   ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
    (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
 in
 
 let FilterHttpTraffic =
-  fun h1_mac : tMacAddr, h2_mac : tMacAddr : pol =
+  fun (h1_mac : tMacAddr, h2_mac : tMacAddr) : pol =
     if (isHttp (h1_mac, h2_mac))
     then pass
     else drop

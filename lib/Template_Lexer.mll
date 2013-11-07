@@ -33,7 +33,6 @@ rule token = parse
   | "false" { FALSE }
   | "<none>" { NONE }
   | "=" { EQUALS }
-  | "filter" { FILTER }
   | "switch" { SWITCH }
   | "port" { PORT }
   | "ethSrc" { SRCMAC }
@@ -71,7 +70,6 @@ rule token = parse
   | "tIPProtoType" {TPROTOTYPEVAL }
   | "drop"     { DROP }
   | "pass"     { PASS }
-  | "fwd"      { FWD }
   | "@"        { AT }
   | "=>"       { DBLARROW }
 

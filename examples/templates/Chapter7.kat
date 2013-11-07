@@ -7,7 +7,8 @@ let forwarding = if      ethDst = 00:00:00:00:00:01 then port := 1
 in 
 
 let FilterHttpTraffic = 
-  fun h1_mac : tMacAddr, h2_mac : tMacAddr : pol =
+  fun (h1_mac : tMacAddr, 
+       h2_mac : tMacAddr) : pol =
     if ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
         (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
     then pass

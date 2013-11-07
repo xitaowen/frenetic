@@ -56,7 +56,6 @@
 %token BANG
 %token AMPAMP
 %token PIPEPIPE
-%token FILTER
 %token COLONEQ
 %token FUN
 %token RARROW
@@ -69,7 +68,6 @@
 %token TPROTOTYPEVAL
 %token DROP
 %token PASS
-%token FWD
 %token AT
 %token DBLARROW
 
@@ -127,7 +125,6 @@ typ :
 
 
 arg_type_list :
-  |                                     { [] }
   | IDENT COLON typ                     { [($1, $3)] }
   | IDENT COLON typ COMMA arg_type_list { ($1, $3) :: $5 }
 
@@ -209,14 +206,15 @@ exp :
   | par_exp                      { $1 }
   | LET IDENT EQUALS exp IN exp  { Let (symbol_start_pos (), $2, $4, $6) }
   | IF exp THEN exp ELSE exp     { If (symbol_start_pos (), $2, $4, $6) }
-  | FUN ident_list RARROW exp    { Fun (symbol_start_pos (), $2, $4) }
+  | FUN LPAREN ident_list RPAREN EQUALS exp    { Fun (symbol_start_pos (), $3, $6) }
 
-  | FUN arg_type_list COLON typ EQUALS exp {
-                                             let (id_list, id_type_list) = List.split $2 in
-                                             TypeIs (symbol_start_pos (), 
-                                                     Fun (symbol_start_pos (), id_list, $6),
-                                                     TFun (id_type_list, $4))
-                                           }
+  | FUN LPAREN arg_type_list RPAREN COLON typ EQUALS exp 
+      {
+        let (id_list, id_type_list) = List.split $3 in
+        TypeIs (symbol_start_pos (), 
+                Fun (symbol_start_pos (), id_list, $8),
+                TFun (id_type_list, $6))
+      }
                                            
 
 program : 
