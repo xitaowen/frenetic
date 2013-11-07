@@ -99,15 +99,6 @@ Executable dehop_test
     lwt.syntax,
     netcore
 
-Executable netkat_test
-  Path: frenetic
-  MainIs: netkat_test.ml
-  Install$: flag(installexec)
-  BuildDepends:
-    lwt,
-    lwt.syntax,
-    netcore
-
 Document doc
   Title: NetCore Documentation
   Type: ocamlbuild (0.3)
