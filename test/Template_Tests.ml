@@ -19,3 +19,6 @@ TEST "repeater.kat" = type_check_file ("examples/templates/repeater.kat")
 TEST "Chapter7.kat" = type_check_file ("examples/templates/Chapter7.kat")
 
 TEST "Chapter8.kat" = type_check_file ("examples/templates/Chapter8.kat")
+
+TEST "repeater_link.kat" = type_check_file ("examples/templates/repeater_link.kat")
+
