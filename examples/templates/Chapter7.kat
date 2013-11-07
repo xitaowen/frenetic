@@ -6,18 +6,29 @@ let forwarding = if      ethDst = 00:00:00:00:00:01 then port := 1
 
 in 
 
-let FilterHttpTraffic = 
-  fun (h1_mac : tMacAddr, 
-       h2_mac : tMacAddr) : pol =
-    if ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
-        (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
-    then pass
-    else drop
 
-in
+let firewall = 
 
-let firewall = FilterHttpTraffic (00:00:00:00:00:01, 
-                                  00:00:00:00:00:02)
+  let isHTTP = 
+    fun (h1_mac : tMacAddr, 
+         h2_mac : tMacAddr) : pred =
+      ((ethSrc = h1_mac && ethDst = h2_mac && tcpDstPort = 80) ||
+       (ethSrc = h2_mac && ethDst = h1_mac && tcpSrcPort = 80))
+
+  in
+
+  let isICMP =
+    fun (h1_mac : tMacAddr,
+         h2_mac : tMacAddr) : pred =
+      ((ethSrc = h1_mac && ethDst = h2_mac && ipProto = icmp) ||
+       (ethSrc = h2_mac && ethDst = h1_mac && ipProto = icmp))
+
+  in
+
+  if (isHTTP (00:00:00:00:00:01, 00:00:00:00:00:02) ||
+      isICMP (00:00:00:00:00:03, 00:00:00:00:00:04))
+  then pass
+  else drop
 
 in
 

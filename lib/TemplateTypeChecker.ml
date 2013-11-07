@@ -225,10 +225,7 @@ and check (env : env) (e : TS.exp) (t : TS.typ) : bool =
       (try
          let t' = env_lookup x env in
          is_subtype  t' t
-(*          (match t, t' with
-            | TS.TInt w1, TS.TInt w2 -> (* all bets are off *) true
-            | _, _ -> if t = t' then true else raise (Type_error (sprintf "%s: Unequal types" (string_of_pos p))))
- *)       with Not_found -> raise
+       with Not_found -> raise
                            (Type_error
                              (sprintf "%s: Unbound Identifier %s" (string_of_pos p) x)))
 
