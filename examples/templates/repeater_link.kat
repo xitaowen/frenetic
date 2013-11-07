@@ -1,7 +1,1 @@
-let sw = 1 in
-
-sw @ 1 => sw @ 2 
-
-+
-
-sw @ 2 => sw @ 1
+let sw = 1 in sw@1 => sw@2 + sw@2 => sw@1
