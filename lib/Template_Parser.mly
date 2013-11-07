@@ -87,27 +87,27 @@ ident_list :
   | IDENT COMMA ident_list { $1 :: $3 }
 
 header_typ :
-  | SWITCH       { THdr (64) }
-  | PORT         { THdr (16) }
-  | TCPSRCPORT   { THdr (16) }
-  | TCPDSTPORT   { THdr (16) }
-  | SRCMAC       { THdr (48) }
-  | DSTMAC       { THdr (48) }
-  | VLAN         { THdr (16) }
-  | SRCIP        { THdr (32) }
-  | DSTIP        { THdr (32) }
-  | FRAMETYPE    { THdr (8)  }
-  | PROTOCOLTYPE { THdr (8)  }
+  | SWITCH       { THdr (switch_width)  }
+  | PORT         { THdr (port_width)    }
+  | TCPSRCPORT   { THdr (port_width)    }
+  | TCPDSTPORT   { THdr (port_width)    }
+  | SRCMAC       { THdr (macaddr_width) }
+  | DSTMAC       { THdr (macaddr_width) }
+  | VLAN         { THdr (vlan_width)    }
+  | SRCIP        { THdr (ipaddr_width)  }
+  | DSTIP        { THdr (ipaddr_width)  }
+  | FRAMETYPE    { THdr (ethtyp_width)  }
+  | PROTOCOLTYPE { THdr (ipproto_width) }
 
 
 header_val_typ:
-  | TSWITCHVAL    { TInt (64) }
-  | TPORTVAL      { TInt (16) }
-  | TMACVAL       { TInt (48) }
-  | TVLANVAL      { TInt (16) }
-  | TIPVAL        { TInt (32) }
-  | TFRAMETYPEVAL { TInt (8) }
-  | TPROTOTYPEVAL { TInt (8) }
+  | TSWITCHVAL    { TInt (switch_width)  }
+  | TPORTVAL      { TInt (port_width)    }
+  | TMACVAL       { TInt (macaddr_width) }
+  | TVLANVAL      { TInt (vlan_width)    }
+  | TIPVAL        { TInt (ipproto_width) }
+  | TFRAMETYPEVAL { TInt (ethtyp_width)  }
+  | TPROTOTYPEVAL { TInt (ipproto_width) }
 
 
 

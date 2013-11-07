@@ -98,12 +98,18 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
       
     | TS.If  (p, e_cond, e_true, e_false) ->
         if not (check env e_cond TS.TPred)
-        then raise (Type_error (sprintf "%s: Condition should be predicate in \"if\"" (string_of_pos p)))
+        then raise
+               (Type_error
+                  (sprintf "%s: Condition should be predicate in \"if\"" (string_of_pos p)))
         else 
         if not (check env e_true TS.TPol)
-        then raise (Type_error (sprintf "%s: True branch should be a policy in \"if\"" (string_of_pos p)))
+        then raise
+               (Type_error
+                  (sprintf "%s: True branch should be a policy in \"if\"" (string_of_pos p)))
         else if not (check env e_false TS.TPol)
-        then  raise (Type_error (sprintf "%s: False branch should be a policy in \"if\"" (string_of_pos p)))
+        then raise
+               (Type_error
+                  (sprintf "%s: False branch should be a policy in \"if\"" (string_of_pos p)))
         else TS.TPol
 
     | TS.Par (p, e1, e2)
@@ -186,21 +192,21 @@ let rec synth (env : env) (e : TS.exp) : TS.typ =
            | SDNH.Header (h) -> 
                let module SDNT = SDN_Types in
                (match h with
-                 | SDNT.IPProto
-                 | SDNT.EthType -> TS.THdr (8)
+                 | SDNT.IPProto -> TS.THdr (TS.ipproto_width)
+                 | SDNT.EthType -> TS.THdr (TS.ethtyp_width)
 
                  | SDNT.EthSrc
-                 | SDNT.EthDst -> TS.THdr (48)
+                 | SDNT.EthDst -> TS.THdr (TS.macaddr_width)
 
                  | SDNT.Vlan
-                 | SDNT.VlanPcp -> TS.THdr (16)
+                 | SDNT.VlanPcp -> TS.THdr (TS.vlan_width)
 
                  | SDNT.IP4Src
-                 | SDNT.IP4Dst -> TS.THdr (32)
+                 | SDNT.IP4Dst -> TS.THdr (TS.ipaddr_width)
 
                  | SDNT.InPort
                  | SDNT.TCPSrcPort
-                 | SDNT.TCPDstPort -> TS.THdr (16))
+                 | SDNT.TCPDstPort -> TS.THdr (TS.port_width))
 
            | SDNH.Switch  -> TS.THdr (64))
         
@@ -273,12 +279,10 @@ and check (env : env) (e : TS.exp) (t : TS.typ) : bool =
       (check env e TS.TPred) && (is_subtype TS.TPred t)
 
   | TS.Link (p, sw_e, pt_e, sw_e', pt_e') ->
-      let sw_width = 64 in
-      let pt_width = 16 in
-      check env sw_e  (TS.TInt (sw_width)) &&
-      check env pt_e  (TS.TInt (pt_width)) &&
-      check env sw_e' (TS.TInt (sw_width)) &&
-      check env pt_e' (TS.TInt (pt_width))
+      check env sw_e  (TS.TInt (TS.switch_width)) &&
+      check env pt_e  (TS.TInt (TS.port_width))   &&
+      check env sw_e' (TS.TInt (TS.switch_width)) &&
+      check env pt_e' (TS.TInt (TS.port_width))
 
   | TS.True (_)
   | TS.False (_) -> is_subtype TS.TPred t

@@ -7,6 +7,17 @@ type id = string
 
 type width = int
 
+
+val switch_width  : int
+val macaddr_width : int
+val ipaddr_width  : int
+val port_width    : int
+val ethtyp_width  : int
+val vlan_width    : int
+val ipproto_width : int
+
+
+
 type typ =
   | TPred
   | THdr of width

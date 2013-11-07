@@ -8,6 +8,15 @@ module NKT = Types
 
 type width = int
 
+let switch_width  = 64
+let macaddr_width = 48
+let ipaddr_width  = 32
+let port_width    = 16
+let ethtyp_width  = 16
+let vlan_width    = 12
+let ipproto_width = 8
+
+
 type typ =
   | TPred
   | THdr of width
