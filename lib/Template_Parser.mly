@@ -59,13 +59,8 @@
 %token COLONEQ
 %token FUN
 %token RARROW
-%token TSWITCHVAL
-%token TPORTVAL
 %token TMACVAL
-%token TVLANVAL
 %token TIPVAL
-%token TFRAMETYPEVAL
-%token TPROTOTYPEVAL
 %token DROP
 %token PASS
 %token AT
@@ -86,36 +81,20 @@ ident_list :
   | IDENT                  { [$1] }
   | IDENT COMMA ident_list { $1 :: $3 }
 
-header_typ :
-  | SWITCH       { THdr (switch_width)  }
-  | PORT         { THdr (port_width)    }
-  | TCPSRCPORT   { THdr (port_width)    }
-  | TCPDSTPORT   { THdr (port_width)    }
-  | SRCMAC       { THdr (macaddr_width) }
-  | DSTMAC       { THdr (macaddr_width) }
-  | VLAN         { THdr (vlan_width)    }
-  | SRCIP        { THdr (ipaddr_width)  }
-  | DSTIP        { THdr (ipaddr_width)  }
-  | FRAMETYPE    { THdr (ethtyp_width)  }
-  | PROTOCOLTYPE { THdr (ipproto_width) }
-
-
 header_val_typ:
-  | TSWITCHVAL    { TInt (switch_width)  }
-  | TPORTVAL      { TInt (port_width)    }
-  | TMACVAL       { TInt (macaddr_width) }
-  | TVLANVAL      { TInt (vlan_width)    }
-  | TIPVAL        { TInt (ipproto_width) }
-  | TFRAMETYPEVAL { TInt (ethtyp_width)  }
-  | TPROTOTYPEVAL { TInt (ipproto_width) }
-
+  | SWITCH       { TInt (switch_width)  }
+  | PORT         { TInt (port_width)    }
+  | TMACVAL      { TInt (macaddr_width) }
+  | VLAN         { TInt (vlan_width)    }
+  | TIPVAL       { TInt (ipproto_width) }
+  | FRAMETYPE    { TInt (ethtyp_width)  }
+  | PROTOCOLTYPE { TInt (ipproto_width) }
 
 
 atom_typ :
   | TPRED             { TPred }
   | TPOL              { TPol  }
   | LPAREN typ RPAREN { $2 }
-  | header_typ        { $1 }
   | header_val_typ    { $1 }
 
 

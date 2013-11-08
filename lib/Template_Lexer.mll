@@ -62,12 +62,8 @@ rule token = parse
   | "!"    { BANG }
   | ":="   { COLONEQ }
   | "->"   { RARROW }
-  | "tPort" { TPORTVAL }
-  | "tMacAddr" { TMACVAL }
-  | "tVLan"    { TVLANVAL }
-  | "tIP"      { TIPVAL }
-  | "tEthType" { TFRAMETYPEVAL }
-  | "tIPProtoType" {TPROTOTYPEVAL }
+  | "macAddr" { TMACVAL }
+  | "ipAddr" { TIPVAL }
   | "drop"     { DROP }
   | "pass"     { PASS }
   | "@"        { AT }
