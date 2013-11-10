@@ -101,18 +101,21 @@ let empty_env  = V.empty_env
 
 exception Eval_error of string
 
-let to_natural_pattern (pr : NKT.pred) : V.value = let open NKT in match pr with
+let to_natural_pattern (pr : NKT.pred) : V.value = let open NKT in 
+  let ip  = 0x800 in
+  let tcp = 0x06 in
+  match pr with
   | Test (h, hv) -> (match h with
     | Header hd -> (let open SDN_Types in match hd with
       | IPProto
       | IP4Src
       | IP4Dst ->  V.Predicate (And (Test (h, hv),
-                                     Test (Header (EthType), VInt.Int16 (0x800))))
+                                     Test (Header (EthType), VInt.Int16 (ip))))
 
       | TCPSrcPort
       | TCPDstPort -> V.Predicate (And (Test (h, hv),
-                                        And (Test (Header (IPProto), VInt.Int8 (0x06)),
-                                             Test (Header (EthType), VInt.Int16 (0x800)))))
+                                        And (Test (Header (IPProto), VInt.Int8 (tcp)),
+                                             Test (Header (EthType), VInt.Int16 (ip)))))
       | _ -> V.Predicate pr)
        
     | Switch -> V.Predicate pr)
