@@ -101,6 +101,24 @@ let empty_env  = V.empty_env
 
 exception Eval_error of string
 
+let to_natural_pattern (pr : NKT.pred) : V.value = let open NKT in match pr with
+  | Test (h, hv) -> (match h with
+    | Header hd -> (let open SDN_Types in match hd with
+      | IPProto
+      | IP4Src
+      | IP4Dst ->  V.Predicate (And (Test (h, hv),
+                                     Test (Header (EthType), VInt.Int16 (0x800))))
+
+      | TCPSrcPort
+      | TCPDstPort -> V.Predicate (And (Test (h, hv),
+                                        And (Test (Header (IPProto), VInt.Int8 (0x06)),
+                                             Test (Header (EthType), VInt.Int16 (0x800)))))
+      | _ -> V.Predicate pr)
+       
+    | Switch -> V.Predicate pr)
+  | _ -> raise (Eval_error "expected \"Test\" predicate")
+
+
 let to_pol (v : V.value) : policy = match v with
   | V.Policy pol -> pol
   | V.Predicate pred -> Types.Filter pred
@@ -179,7 +197,7 @@ let rec eval_helper (env : env) (e : exp) : V.value =
   | False _ -> V.Predicate NKT.False
   | Test (p, e1, e2) ->
     (match eval_helper env e1, eval_helper env e2 with
-     | V.Header h, V.HeaderVal hv -> V.Predicate (NKT.Test (h, hv))
+     | V.Header h, V.HeaderVal hv -> to_natural_pattern (NKT.Test (h, hv))
      | _ -> raise 
               (Eval_error 
                  (sprintf "%s: Mismatched types to \"=\"" (string_of_pos p))))

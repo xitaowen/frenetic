@@ -11,12 +11,12 @@ let forwarding =
   else drop in 
 
 let isHTTP = fun (h1 : macAddr, h2 : macAddr) : pred ->
-  (ethSrc = h1 && ethDst = h2 && tcpDstPort = 80) ||
-  (ethSrc = h2 && ethDst = h1 && tcpSrcPort = 80) in
+  (tcpDstPort = 80 || tcpSrcPort = 80) &&
+  ((ethSrc = h1 && ethDst = h2) || (ethSrc = h2 && ethDst = h1)) in
 
 let isICMP = fun (h1 : macAddr, h2 : macAddr) : pred ->
-  (ethSrc = h1 && ethDst = h2 && ipProto = icmp) ||
-  (ethSrc = h2 && ethDst = h1 && ipProto = icmp) in
+  (ipProto = icmp) && 
+  ((ethSrc = h1 && ethDst = h2) || (ethSrc = h2 && ethDst = h1)) in
 
 let firewall = isHTTP (h1, h2) || isICMP (h3, h4) in
 
