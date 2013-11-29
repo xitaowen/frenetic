@@ -67,7 +67,7 @@ module Dump = struct
       let sw_p = Types.(Seq(Filter(Test(Switch,vs)), p)) in
       let table = to_table (compile vs sw_p) in
       if List.length table > 0 then
-        Format.printf "@[flowtable for switch %d:\n%a@\n\n@]%!" sw
+        Format.printf "@[flowtable for switch %d:@\n%a@\n@\n@]%!" sw
           SDN_Types.format_flowTable table;
     done
 
