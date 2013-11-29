@@ -1,18 +1,4 @@
 # OASIS_START
-# DO NOT EDIT (digest: 29546df0f2ddcc909076b5df7e739d88)
-NetCore_Compiler
-NetCore_Controller
-NetCore_ConsistentUpdates
-NetCore_Pretty
-NetCore_MacLearning
-NetCore_NAT
-NetCore_Semantics
-NetCore_Stream
-NetCore_StatefulFirewall
-NetCore_Topo
-NetCore_Types
-NetCore_Parsing
-NetKAT_Types
-NetKAT_Compiler
-Controller
+# DO NOT EDIT (digest: f2d346b1bb7c1c85ab6f7f21e3666b9f)
+Types
 # OASIS_STOP

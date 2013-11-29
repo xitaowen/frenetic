@@ -1,18 +1,18 @@
 # OASIS_START
-# DO NOT EDIT (digest: 90e608c711fe486bf73e11d653891895)
+# DO NOT EDIT (digest: bd23742198138563e883718da29d58c8)
 version = "1.0.2"
 description = "The Frenetic Compiler and Runtime System"
 requires =
 "lwt lwt.unix cstruct dprle lwt.syntax lwt.syntax.log str ocamlgraph packet openflow topology"
-archive(byte) = "netcore.cma"
-archive(byte, plugin) = "netcore.cma"
-archive(native) = "netcore.cmxa"
-archive(native, plugin) = "netcore.cmxs"
-exists_if = "netcore.cma"
+archive(byte) = "netkat.cma"
+archive(byte, plugin) = "netkat.cma"
+archive(native) = "netkat.cmxa"
+archive(native, plugin) = "netkat.cmxs"
+exists_if = "netkat.cma"
 package "quickcheck" (
  version = "1.0.2"
  description = "The Frenetic Compiler and Runtime System"
- requires = "quickcheck netcore"
+ requires = "quickcheck netkat"
  archive(byte) = "quickcheck.cma"
  archive(byte, plugin) = "quickcheck.cma"
  archive(native) = "quickcheck.cmxa"

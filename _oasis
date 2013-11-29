@@ -2,8 +2,7 @@ OASISFormat: 0.3
 Name:        frenetic
 Version:     1.0.2
 Synopsis:    The Frenetic Compiler and Runtime System
-Authors:     Nate Foster, Arjun Guha, Mark Reitblatt, Cole Schlesinger, and
-             David Walker
+Authors:     https://github.com/frenetic-lang/frenetic/contributors/
 License:     LGPL
 Plugins:     META (0.3), StdFiles (0.3), DevFiles (0.3)
 BuildTools:
@@ -21,7 +20,7 @@ Flag quickcheck
   Description: build the frenetic.quickcheck library
   Default: False
 
-Library netcore
+Library netkat
   Path: lib
   BuildDepends:
     lwt,
@@ -52,12 +51,12 @@ Library netcore
     NetKAT_Stream
 
 Library quickcheck
-  Findlibparent: netcore
+  Findlibparent: netkat
   Findlibname: quickcheck
   Path: quickcheck
   BuildDepends:
     quickcheck,
-    netcore
+    netkat
   Modules:
     NetKAT_Arbitrary
 
@@ -66,11 +65,11 @@ Executable testtool
   MainIs: Test.ml
   BuildDepends: 
     oUnit,packet,
-    netcore,
+    netkat,
     pa_ounit,
     pa_ounit.syntax,
     quickcheck,
-    netcore.quickcheck
+    netkat.quickcheck
   Install: False
 
 Test all_tests
@@ -79,49 +78,18 @@ Test all_tests
   TestTools: testtool
 
 Executable katnetic
-  Path: frenetic
+  Path: src
   MainIs: katnetic.ml
+  CompiledObject: best
   Install$: flag(installexec)
   BuildDepends:
     lwt,
     lwt.syntax,
-    netcore
-
-Executable dehop_test
-  Path: frenetic
-  MainIs: dehop_test.ml
-  Install$: flag(installexec)
-  BuildDepends:
-    lwt,
-    lwt.syntax,
-    netcore
-
-Executable netkat_test
-  Path: frenetic
-  MainIs: netkat_test.ml
-  Install$: flag(installexec)
-  BuildDepends:
-    lwt,
-    lwt.syntax,
-    netcore
+    netkat
 
 Document doc
-  Title: NetCore Documentation
+  Title: NetKAT Documentation
   Type: ocamlbuild (0.3)
   XOCamlBuildPath: lib
   XOCamlBuildModules:
-    NetCore_Compiler,
-    NetCore_Controller,
-    NetCore_ConsistentUpdates,
-    NetCore_Pretty,
-    NetCore_MacLearning,
-    NetCore_NAT,
-    NetCore_Semantics,
-    NetCore_Stream,
-    NetCore_StatefulFirewall,
-    NetCore_Topo,
-    NetCore_Types,
-    NetCore_Parsing,
-    NetKAT_Types,
-    NetKAT_Compiler,
-    Controller
+    Types
