@@ -8,9 +8,9 @@ let help args =
       Format.printf "usage: katnetic dump automaton [all|policies|flowtables] <filename>!\n";
       Format.printf "usage: katnetic dump local <number of switches> <filename>@\n"
     | _ -> 
-      Format.printf "%s" ("usage: katnetic <command>@\n" ^
-			  "  run    Compile and start the controller@\n" ^ 
-			  "  dump   Compile and dump flow table@\n")
+      Format.printf "usage: katnetic <command>@\n";
+      Format.printf "  run    Compile and start the controller@\n";
+      Format.printf "  dump   Compile and dump flow table@\n"
 
 module Run = struct
   open LocalCompiler.RunTime
