@@ -22,9 +22,12 @@ Flag quickcheck
 
 Library netkat
   Path: lib
-  BuildDepends:
+  BuildDepends:    
     lwt,
     lwt.unix,
+    core,
+    sexplib,
+    sexplib.syntax,
     cstruct,
     dprle,
     lwt.syntax,

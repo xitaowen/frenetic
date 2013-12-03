@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 9833ce07d0d1802470c993ee89a45f71) *)
+(* DO NOT EDIT (digest: 01a9c6cc94088f04a6c917a76498ec83) *)
 This is the INSTALL file for the frenetic distribution.
 
 This package uses OASIS to generate its build system. See section OASIS for
@@ -12,6 +12,8 @@ In order to compile this package, you will need:
 * ocaml for all, test all_tests, doc doc
 * findlib
 * lwt for library netkat, executable katnetic
+* core for library netkat
+* sexplib for library netkat
 * cstruct for library netkat
 * dprle for library netkat
 * ocamlgraph for library netkat

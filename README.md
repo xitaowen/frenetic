@@ -11,6 +11,7 @@ Prerequisites:
 - OCaml 4.0 or higher <http://caml.inria.fr/download.en.html>
 - OPAM <http://opam.ocamlpro.com>
 - The following OCaml libraries, available from OPAM:
+  - core
   - cstruct
   - lwt
   - ocamlfind
